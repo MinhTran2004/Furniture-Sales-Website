@@ -1,6 +1,6 @@
 import { ProgressBar } from "react-bootstrap"
 
-export default function HomePager() {
+export default function ScreenHomePager() {
     const ItemSeasonColl = ({ img, nameRoom, quantity }) => {
         return (
             <div>
@@ -31,7 +31,7 @@ export default function HomePager() {
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <p style={{ margin: 0, color: '#888888', fontSize: 13 }}>Mã: </p>
-                                <p style={{ margin: 0, fontWeight: '400', fontSize: 13 }}>{code}</p>
+                                <p style={{ margin: 0, fontWeight: '500', fontSize: 13 }}>{code}</p>
                             </div>
                             <p style={{ margin: 0, color: '#888888', fontSize: 13 }}>HSD: {date}</p>
                         </div>
@@ -81,7 +81,6 @@ export default function HomePager() {
             </div>
         )
     }
-
     const ItemLookbook = ({ image, title, info }) => {
         return (
             <div style={{ width: '33%', textAlign: 'center', padding: '0 10px' }}>
@@ -115,7 +114,6 @@ export default function HomePager() {
             </div>
         )
     }
-
     const ItemYoutube = ({ image }) => {
         return (
             <div style={{ width: '25%', position: 'relative' }}>
@@ -163,11 +161,11 @@ export default function HomePager() {
     }
 
     return (
-        <div style={{ flex: 1, overflow: 'auto' }}>
+        <div style={{ flex: 1 }}>
             {/* header */}
-            <div style={{ height: 60 }}>
+            <div style={{ height: 60, display: 'flex', justifyContent:'center' }}>
 
-                <div style={{ width: '100%', height: 60, backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', padding: '0 100px', alignItems: 'center', position: 'fixed' }}>
+                <div style={{ width: '85%', height: 60, backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed' }}>
                     <div>
                         <img src={require("../Image/image_logo_home.png")} style={{ Width: 134, height: 40 }} alt="" />
                     </div>
@@ -179,9 +177,9 @@ export default function HomePager() {
                         <a href="/e" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Hướng dẫn thiết lập</a>
                     </div>
                     <div style={{ display: 'flex' }}>
-                        <img src={require("../Image/sreach.png")} alt="" style={{ width: 28, height: 28, marginRight: 15 }} />
-                        <img src={require("../Image/user.png")} alt="" style={{ width: 28, height: 28, marginRight: 15 }} />
-                        <img src={require("../Image/cart.png")} alt="" style={{ width: 28, height: 28, marginRight: 15 }} />
+                        <img src={require("../Image/sreach.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
+                        <img src={require("../Image/user.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
+                        <img src={require("../Image/cart.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
                     </div>
 
                 </div>
@@ -365,6 +363,7 @@ export default function HomePager() {
                 </div>
             </div>
 
+            {/* footer */}
             <div>
                 <div style={{ padding: '0 7.3%', backgroundColor: '#ec720e' }}>
                     <div style={{ display: 'flex' }}>
