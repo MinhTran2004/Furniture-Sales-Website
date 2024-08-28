@@ -1,9 +1,10 @@
-import { faAngleRight, faCalendarDays, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faCalendarDays, faEnvelope, faLocationDot, faPhone, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProgressBar } from "react-bootstrap"
 import { FaRegStar } from "react-icons/fa"
+import { Link } from "react-router-dom";
 
-export default function ScreenHomePager() {
+export default function HomePage() {
     const ItemSeasonColl = ({ img, nameRoom, quantity }: any) => {
         return (
             <div style={{ width: '15%' }}>
@@ -53,9 +54,16 @@ export default function ScreenHomePager() {
     }
     const ItemFlashSale = ({ image, name, sale, price, label, quantity, status }: any) => {
         return (
-            <div style={{ width: '25%', height: '100%', padding: '0 10px', justifyContent: 'space-around' }}>
-
-                <div style={{ height: 280, padding: 10, display: 'flex', justifyContent: 'center', objectFit: 'cover', objectPosition: 'center' }}>
+            <Link
+                to="/InforProduct"
+                state={{ image, name, sale, price, label, quantity, status }} // Truyền state
+                style={{
+                    width: '25%',
+                    padding: '0 10px',
+                    textDecoration: 'none',
+                    color: 'black'
+                }} >
+                <div style={{ height: '50%', padding: 10, display: 'flex', justifyContent: 'center', objectFit: 'cover' }}>
                     <img src={image} style={{ width: '100%' }} alt="" />
                 </div>
 
@@ -92,7 +100,7 @@ export default function ScreenHomePager() {
                 )
                     :
                     null}
-            </div>
+            </Link>
         )
     }
     const ItemLookbook = ({ image, title, info }: any) => {
@@ -145,25 +153,6 @@ export default function ScreenHomePager() {
 
     return (
         <div style={{ flex: 1 }}>
-            {/* header */}
-            <div style={{ width: '100%', padding: '0 7%', height: 60, backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', zIndex: 100 }}>
-                <div>
-                    <img src={require("../Image/image_logo_home.png")} style={{ width: 134, height: 40 }} alt="" />
-                </div>
-                <div style={{ display: 'flex' }}>
-                    <a href="/a" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Sản phẩm</a>
-                    <a href="/b" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Phòng</a>
-                    <a href="/c" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Khuyến mãi</a>
-                    <a href="/d" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Góc cảm hứng</a>
-                    <a href="/e" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Hướng dẫn thiết lập</a>
-                </div>
-                <div style={{ display: 'flex' }}>
-                    <img src={require("../Image/sreach.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                    <img src={require("../Image/user.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                    <img src={require("../Image/cart.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                </div>
-
-            </div>
             <img src={require("../Image/slider_1.webp")} alt="" style={{ width: '100%' }} />
 
             {/* main */}
@@ -191,7 +180,7 @@ export default function ScreenHomePager() {
                 <h1 style={{ margin: '60px 0' }}>HAPPY SUMMER - GIẢM ĐẾN 50%</h1>
 
                 <div style={{ display: 'flex' }}>
-                    <ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000$'} label={50} quantity={28} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
+                    <ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000₫'} label={50} quantity={28} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
                     <ItemFlashSale name={'Sofa Băng Bọc Vải Siêu Rộng Lewis Extra QP243'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={46} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/rectangle2b82fc8df70254ff7ba5f.jpg?v=1721288309203'} status={"sale"} />
                     <ItemFlashSale name={'Sofa Băng Bọc Vải Phong Cách Scandinavian'} price={'33.750.000₫'} sale={'67.500.000₫'} label={50} quantity={96} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/951481666x12496f7cdf2128e24243.jpg?v=1721288302580'} status={"sale"} />
                     <ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP113'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={87} image={'https://bizweb.dktcdn.net/thumb/grande/100/491/756/products/anhsanphamd7d53ac32ef245df9fb3.jpg?v=1721288299183'} status={"sale"} />
@@ -252,13 +241,13 @@ export default function ScreenHomePager() {
                             <ItemFlashSale name={'Đèn tường Studio'} sale={'5.800.000₫'} price={'8.900.000₫'} label={'35'} image={require('../Image/arrival_1.webp')} />
                             <ItemFlashSale name={'Đèn tường Wally'} sale={'5.500.000₫'} price={'8.900.000₫'} label={'39'} image={require('../Image/arrival_2.webp')} />
                             <ItemFlashSale name={'Mochi Pouffe / Nhiều màu'} sale={'7.290.000₫'} price={'8.300.000₫'} label={'13'} image={require('../Image/arrival_3.webp')} />
-                            <ItemFlashSale name={'Bàn Cà Phê Raw Đá Cẩm Thạch Đen'} sale={'12.250.000₫'} price={'16.500.000'} label={'26'} image={require('../Image/arrival_4.webp')} />
+                            <ItemFlashSale name={'Bàn Cà Phê Raw Đá Cẩm Thạch Đen'} sale={'12.250.000₫'} price={'16.500.000₫'} label={'26'} image={require('../Image/arrival_4.webp')} />
                         </div>
                         <div style={{ display: 'flex', marginTop: 30 }}>
                             <ItemFlashSale name={'Đèn tường Studio'} sale={'5.800.000₫'} price={'8.900.000₫'} label={'35'} image={require('../Image/arrival_1.webp')} />
                             <ItemFlashSale name={'Đèn tường Wally'} sale={'5.500.000₫'} price={'8.900.000₫'} label={'39'} image={require('../Image/arrival_2.webp')} />
                             <ItemFlashSale name={'Mochi Pouffe / Nhiều màu'} sale={'7.290.000₫'} price={'8.300.000₫'} label={'13'} image={require('../Image/arrival_3.webp')} />
-                            <ItemFlashSale name={'Bàn Cà Phê Raw Đá Cẩm Thạch Đen'} sale={'12.250.000₫'} price={'16.500.000'} label={'26'} image={require('../Image/arrival_4.webp')} />
+                            <ItemFlashSale name={'Bàn Cà Phê Raw Đá Cẩm Thạch Đen'} sale={'12.250.000₫'} price={'16.500.000₫'} label={'26'} image={require('../Image/arrival_4.webp')} />
                         </div>
                     </div>
                 </div>
@@ -359,9 +348,9 @@ export default function ScreenHomePager() {
                             <h3 style={{ color: 'white' }}>Siêu thị nội thất EGA</h3>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Thương hiệu nội thất uy tín và chất lượng, cam kết mang đến những trải nghiệm mua sắm tiện lợi, hiện đại và phong phú</p>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Mã số thuế: 12345678999</p>
-                            {/* <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i class="fa-solid fa-location-dot" style={{ color: 'white' }} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i class="fa-solid fa-phone" style={{ color: 'white' }} /> Số điện thoại: 19006750</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i class="fa-regular fa-envelope" /> support@sapo.vn</p> */}
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faPhone} /> Số điện thoại: 19006750</p>
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faEnvelope} />support@sapo.vn</p>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>© Bản quyền thuộc về EGANY| Cung cấp bởi </p>
                         </div>
 

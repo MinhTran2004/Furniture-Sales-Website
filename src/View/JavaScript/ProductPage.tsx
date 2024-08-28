@@ -1,6 +1,8 @@
+import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FaRegStar } from "react-icons/fa"
 
-export default function ScreenProduct() {
+export default function ProductPage() {
 
     const ItemCoupon = ({ title, desc, code, date }: any) => {
         return (
@@ -39,21 +41,21 @@ export default function ScreenProduct() {
             </div>
         )
     }
-    const ItemProduct = ({ image, name, sale, price, label }:any) => {
+    const ItemProduct = ({ image, name, sale, price, label }: any) => {
         return (
             <div style={{ width: '25%', padding: '0 10px', justifyContent: 'space-around' }}>
 
                 <div style={{ height: 210, display: 'flex', justifyContent: 'center', objectFit: 'cover', objectPosition: 'center' }}>
-                    <img src={image} style={{ width: '100%' }} alt=""/>
+                    <img src={image} style={{ width: '100%' }} alt="" />
                 </div>
                 <p style={{ margin: 0, fontWeight: '500', fontSize: 16 }}>{name}</p>
                 <div style={{ margin: '5px 0' }}>
-                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                    </div>
+                    <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                    <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                    <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                    <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                    <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                </div>
                 <p style={{ margin: 0, color: 'red', fontWeight: 'bold', fontSize: 15 }}>{sale}</p>
                 <div style={{ display: 'flex' }}>
                     <p style={{ margin: 0, textDecoration: 'line-through', fontSize: 15 }}>{price}</p>
@@ -63,7 +65,7 @@ export default function ScreenProduct() {
             </div>
         )
     }
-    const ItemFilter = ({ name, color }:any) => {
+    const ItemFilter = ({ name, color }: any) => {
         return (
             <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
                 {color != null ?
@@ -79,40 +81,16 @@ export default function ScreenProduct() {
     return (
         <div style={{ flex: 1 }}>
             {/* header */}
-            <div style={{ width: '85%', margin: '0 auto' }}>
-                <div style={{ height: 60, display: 'flex' }}>
+            <div style={{ width: '85%', margin: 'auto', paddingTop: 70 }}>
+                <p style={{ fontWeight: '450', fontSize: 16 }}>Trang chủ / <span style={{ fontWeight: '500' }}>Tất cả sản phẩm</span> </p>
+                <img src={require('../Image/title_screenproduct_img.webp')} alt="" style={{ width: '100%' }} />
+            </div>
 
-                    <div style={{ width: '85%', height: 60, backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed' }}>
-                        <div>
-                            <img src={require("../Image/image_logo_home.png")} style={{ width: 134, height: 40 }} alt="" />
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <a href="/a" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Sản phẩm</a>
-                            <a href="/b" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Phòng</a>
-                            <a href="/c" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Khuyến mãi</a>
-                            <a href="/d" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Góc cảm hứng</a>
-                            <a href="/e" style={{ textDecoration: 'none', paddingLeft: 50, color: 'black', fontSize: 17, fontWeight: "500" }}>Hướng dẫn thiết lập</a>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <img src={require("../Image/sreach.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                            <img src={require("../Image/user.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                            <img src={require("../Image/cart.png")} alt="" style={{ width: 25, height: 25, marginRight: 15 }} />
-                        </div>
-                    </div>
-
-                </div>
-
-                <div style={{ width: '100%', margin: 'auto' }}>
-                    <p style={{ fontWeight: '450', fontSize: 16 }}>Trang chủ / <span style={{ fontWeight: '500' }}>Tất cả sản phẩm</span> </p>
-                    <img src={require('../Image/title_screenproduct_img.webp')} alt="" style={{ width: '100%', height: 250 }} />
-                </div>
-
-                <div style={{ margin: '30px 0 0 ', display: 'flex', justifyContent: 'center' }}>
-                    <ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
-                    <ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
-                    <ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
-                    <ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
-                </div>
+            <div style={{ width: '85%', margin: '40px auto', display: 'flex', justifyContent: 'center' }}>
+                <ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
+                <ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
+                <ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
+                <ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
             </div>
 
             {/* main */}
@@ -205,9 +183,9 @@ export default function ScreenProduct() {
                             <h3 style={{ color: 'white' }}>Siêu thị nội thất EGA</h3>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Thương hiệu nội thất uy tín và chất lượng, cam kết mang đến những trải nghiệm mua sắm tiện lợi, hiện đại và phong phú</p>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Mã số thuế: 12345678999</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i className="fa-solid fa-location-dot" style={{ color: 'white' }} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i className="fa-solid fa-phone" style={{ color: 'white' }} /> Số điện thoại: 19006750</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><i className="fa-regular fa-envelope" /> support@sapo.vn</p>
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faPhone} /> Số điện thoại: 19006750</p>
+                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faEnvelope} />support@sapo.vn</p>
                             <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>© Bản quyền thuộc về EGANY| Cung cấp bởi </p>
                         </div>
 
