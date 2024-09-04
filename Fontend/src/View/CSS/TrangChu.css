@@ -119,9 +119,10 @@
     font-size: 18px
 }
 
-.icon_start {
+.icon_star {
     font-size: 18px;
-    margin: 5px 0
+    margin: 5px 0;
+    color: #ffbe00;
 }
 
 .sale_FlashSale {
@@ -337,7 +338,7 @@
         font-size: 10px;
     }
 
-    .icon_start {
+    .icon_star {
         font-size: 11px;
         margin: 0;
     }
@@ -500,7 +501,7 @@
         font-size: 10px;
     }
 
-    .icon_start {
+    .icon_star{
         font-size: 11px;
         margin: 0;
     }
@@ -640,7 +641,7 @@
         margin: 0;
     }
 
-    .icon_start {
+    .icon_star {
         font-size: 13px;
         margin: 0;
         margin: '5px 0'
@@ -696,6 +697,13 @@
     .main {
         width: 95%;
     }
+    .title{
+        font-size: 22px;
+    }
+
+    .banner1{
+        margin: 50px 0;
+    }
 
     /* SeasonColl */
     .title_SeasonColl {
@@ -742,15 +750,18 @@
 
     /* FlashSale */
     .name_FlashSale {
-        font-size: 16px;
+        font-size: 13px;
+    }
+    .icon_star{
+        font-size: 13px;
     }
 
     .sale_FlashSale {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .price_FlashSale {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .label_FlashSale {
