@@ -1,0 +1,131 @@
+.container {
+    width: 30%;
+    height: 320px;
+    margin: 100px auto;
+    border: 1px solid #c2c2c2;
+    border-radius: 10px;
+}
+
+.containerInput {
+    width: 100%;
+    text-align: center;
+}
+
+.inputLayout {
+    width: 100%;
+}
+
+/* Policies */
+.container_footer {
+    width: 87%;
+    margin: auto;
+    padding: 80px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_footer {
+    width: 25%;
+    padding: 0 20px
+}
+
+.container_Policies {
+    padding: 0 7.3%;
+    background-color: #ec720e;
+    margin-top: 50px;
+}
+
+.item_Policies {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    padding: 20px 0
+}
+
+.title_Policies {
+    margin: 0px 0 0 10px;
+    font-size: 15px;
+    color: white;
+    font-weight: 500;
+}
+
+.desc_Policies {
+    margin: 0px 0 0 10px;
+    font-size: 15px;
+    color: white;
+}
+
+.li_menu_footer {
+    color: white;
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 575px) {
+
+    /* Policies */
+    .container_Policies {
+        padding: 0 20px;
+    }
+
+    .img_Policies {
+        width: 100%;
+        width: 18%;
+    }
+
+    .title_Policies {
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+    .desc_Policies {
+        font-size: 10px;
+        margin-left: 5px;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+
+    /* Policies */
+    .img_Policies {
+        width: 100%;
+        width: 18%;
+    }
+
+    .title_Policies {
+        font-size: 13px;
+    }
+
+    .desc_Policies {
+        font-size: 11px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+    /* Policies */
+    .img_Policies {
+        width: 100%;
+        width: 18%;
+    }
+
+    .title_Policies {
+        font-size: 13px;
+    }
+
+    .desc_Policies {
+        font-size: 11px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+
+    /* Policies */
+    .title_Policies {
+        font-size: 15px;
+    }
+
+    .desc_Policies {
+        font-size: 13px;
+    }
+}

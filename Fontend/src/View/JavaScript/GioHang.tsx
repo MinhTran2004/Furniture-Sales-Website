@@ -1,9 +1,78 @@
 import { faAngleRight, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
+import { CartSevice } from "../../Sevice/CartSevice";
+import { CartModel } from "../../Model/CartModel";
+
 export default function CartPage() {
+
+    const [data, setData] = useState<CartModel[]>([])
+
+    const getAllCart = async () => {
+        try {
+            await CartSevice.getAllCart().then((reponses) => setData(reponses?.data));
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getAllCart();
+    }, [])
+
+    const ItemCart = (cart: CartModel) => {
+        const [quantity, setQuantity] = useState(Number(cart.quantity));
+
+        const changeQuantity = async (status: Number) => {
+            if (status === 0) {
+                if (quantity > 1) {
+                    setQuantity(quantity - 1);
+                    try {
+                        await CartSevice.updateCartQuantityById(cart.idProduct, (quantity - 1).toString());
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }else{
+                    try{
+                        await CartSevice.deleteCartById(cart.idProduct); 
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            } else {
+                setQuantity(quantity + 1);
+                try {
+                    await CartSevice.updateCartQuantityById(cart.idProduct, (quantity + 1).toString());
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <FaX style={{ color: '#d7d9e2' }} />
+                    <img src={cart.image} alt="" style={{ width: '20%' }} />
+                    <div>
+                        <p style={{ margin: 0, fontWeight: '500', fontSize: 17 }}>{cart.name}</p>
+                        <p style={{ margin: 0, color: '#b2b2b2' }}>{cart.color}</p>
+                    </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <p style={{ color: 'red', fontWeight: '500', fontSize: 18, margin: '0 20px' }}>{cart.sale}₫</p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #d7d9e2', borderRadius: 10 }}>
+                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }} onClick={() => changeQuantity(0)}>-</p>
+                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }}>{quantity}</p>
+                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }} onClick={() => changeQuantity(1)}>+</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     const ItemProduct = ({ image, name, sale, price, label }: any) => {
         return (
@@ -32,44 +101,6 @@ export default function CartPage() {
         )
     }
 
-    const ItemProductCart = () => {
-        const [quantity, setQuantity] = useState(1);
-
-        const changeQuantity = (status: Number) => {
-            if (status === 0) {
-                if (quantity > 1) {
-                    setQuantity(quantity - 1);
-                }
-            } else {
-                setQuantity(quantity + 1);
-            }
-        }
-
-        return (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FaX style={{ color: '#d7d9e2' }} />
-                    <img src="https://bizweb.dktcdn.net/thumb/compact/100/491/756/products/melaniecanape3placesgirsclaire.jpg" alt="" style={{ width: '20%' }} />
-                    <div>
-                        <p style={{ margin: 0, fontWeight: '500', fontSize: 17 }}>Sofa Băng Phòng Khách Truyền Thống QP115</p>
-                        <p style={{ margin: 0, color: '#b2b2b2' }}>Xám ghi</p>
-                    </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <p style={{ color: 'red', fontWeight: '500', fontSize: 18, margin: '0 20px' }}>31.200.000₫</p>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #d7d9e2', borderRadius: 10 }}>
-                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }} onClick={() => changeQuantity(0)}>-</p>
-                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }}>{quantity}</p>
-                        <p style={{ margin: 'auto 0', padding: '5px 13px', textAlign: 'center', fontSize: 17, fontWeight: '500' }} onClick={() => changeQuantity(1)}>+</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-
-
     return (
         <div>
             <div style={{ width: '85%', margin: '0 auto', paddingTop: 70 }}>
@@ -90,10 +121,13 @@ export default function CartPage() {
                             </div>
                             <button style={{ color: 'white', backgroundColor: '#f88b38', border: 0, borderRadius: 20, padding: '2px 10px' }}>Sao chép</button>
                         </div>
-                        <ItemProductCart />
-                        <ItemProductCart />
-                        <ItemProductCart />
-                        <ItemProductCart />
+
+                        {data.map((item, index) => (
+                            <ItemCart key={index} {...item} />
+                        ))
+
+                        }
+
                         <p style={{ fontWeight: '500', fontSize: 16 }}>Ghi chú đơn hàng</p>
                         <textarea style={{ width: '100%', border: '1px solid #d7d9e2', resize: 'none', height: 50 }} rows={8} />
                     </div>

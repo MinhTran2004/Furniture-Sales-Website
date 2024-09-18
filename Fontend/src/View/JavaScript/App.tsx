@@ -8,6 +8,7 @@ import GioHang from "./GioHang";
 import '../CSS/App.css'
 import { Dropdown } from "react-bootstrap";
 import { HiMenuAlt1 } from "react-icons/hi";
+import DangNhap from "./DangNhap";
 
 export default function App() {
     return (
@@ -21,9 +22,9 @@ export default function App() {
 
                     <Dropdown.Menu>
                         <Dropdown.Item><Link to="/" className="headerTitle">Trang chủ</Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/Product" className="headerTitle">Sản phẩm</Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/Promotion" className="headerTitle">Khuyến mãi</Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/Inspirational" className="headerTitle">Góc cảm hứng</Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/SanPham" className="headerTitle">Sản phẩm</Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/KhuyenMai" className="headerTitle">Khuyến mãi</Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/CamHung" className="headerTitle">Góc cảm hứng</Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/e" className="headerTitle">Hướng dẫn thiết lập</Link></Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
@@ -31,26 +32,26 @@ export default function App() {
                 <img src={require("../Image/image_logo_home.png")} alt="" className="headerLogo" />
                 <div className="containerTitle">
                     <Link to="/" className="headerTitle">Trang chủ</Link>
-                    <Link to="/Product" className="headerTitle">Sản phẩm</Link>
-                    <Link to="/Promotion" className="headerTitle">Khuyến mãi</Link>
-                    <Link to="/Inspirational" className="headerTitle">Góc cảm hứng</Link>
+                    <Link to="/SanPham" className="headerTitle">Sản phẩm</Link>
+                    <Link to="/KhuyenMai" className="headerTitle">Khuyến mãi</Link>
+                    <Link to="/CamHung" className="headerTitle">Góc cảm hứng</Link>
                     <Link to="/e" className="headerTitle">Hướng dẫn thiết lập</Link>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <img src={require("../Image/sreach.png")} alt="" className="headerIcon" />
-                    <img src={require("../Image/user.png")} alt="" className="headerIcon" />
-                    <img src={require("../Image/cart.png")} alt="" className="headerIcon" />
-                    {/* <Link to={'/Cart'}><img src={require("../Image/cart.png")} alt="" className="headerIcon" /></Link> */}
+                    <Link to="/DangNhap"><img src={require("../Image/user.png")} alt="" className="headerIcon" /></Link>
+                    <Link to={'/GioHang'}><img src={require("../Image/cart.png")} alt="" className="headerIcon" /></Link>
                 </div>
             </div>
 
             <Routes>
                 <Route path="/" element={<TrangChu />} />
-                <Route path="Product" element={<SanPham />} />
-                <Route path="Promotion" element={<KhuyenMai />} />
-                <Route path="/Inspirational" element={<CamHung />} />
-                <Route path="/InforProduct" element={<ThongTinSanPham />} />
-                <Route path="/Cart" element={<GioHang />} />
+                <Route path="SanPham" element={<SanPham />} />
+                <Route path="KhuyenMai" element={<KhuyenMai />} />
+                <Route path="/CamHung" element={<CamHung />} />
+                <Route path="/ThongTinSanPham" element={<ThongTinSanPham />} />
+                <Route path="/GioHang" element={<GioHang />} />
+                <Route path="/DangNhap" element={<DangNhap />} />
             </Routes>
 
         </div>

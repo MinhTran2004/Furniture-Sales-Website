@@ -3,12 +3,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { useLocation } from "react-router-dom"
+import { ProductModel } from "../../Model/ProductModel";
+import { CartSevice } from "../../Sevice/CartSevice";
+import { CartModel } from "../../Model/CartModel";
 
 export default function InforProductPage() {
+    const location: ProductModel = useLocation().state.product;
+
+    const [imageProduct, setImageProduct] = useState(location.image[0].imageProduct);
+    const [colorProduct, setColorProduct] = useState(location.image[0].color);
     const [quantity, setQuantity] = useState(1);
     const [tab, setTab] = useState('TabDescribe');
 
-    const location = useLocation().state;
+    const addCart = async () => {
+        try{
+            const product = new CartModel(undefined, location._id, imageProduct, location.name, colorProduct, location.sale, "1", "true");
+            console.log(await CartSevice.addCart(product));
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const changeQuantity = (status: Number) => {
         if (status === 0) {
@@ -19,7 +33,6 @@ export default function InforProductPage() {
             setQuantity(quantity + 1);
         }
     }
-
     const TabDescribe = () => {
         return (
             <div style={{ width: '75%', margin: '0 auto', textAlign: 'justify' }}>
@@ -57,7 +70,7 @@ export default function InforProductPage() {
     }
     const TabDeliveryPolicy = () => {
         return (
-            <div style={{width: '75%', margin: '0 auto', textAlign: 'justify'}}>
+            <div style={{ width: '75%', margin: '0 auto', textAlign: 'justify' }}>
                 <p>Dịch vụ giao hàng tận nơi trên toàn quốc, áp dụng cho khách mua hàng trên website, fanpage và gọi điện thoại, không áp dụng cho khách mua trực tiếp tại cửa hàng.</p>
                 <p>Đơn hàng sẽ được chuyển phát đến tận địa chỉ khách hàng cung cấp thông qua công ty vận chuyển trung gian.</p>
                 <p style={{ fontWeight: 'bold' }}>Thời gian giao hàng: </p>
@@ -79,8 +92,8 @@ export default function InforProductPage() {
         )
     }
     const TabReturnPolicy = () => {
-        return(
-            <div style={{width: '75%', margin: '0 auto'}}>
+        return (
+            <div style={{ width: '75%', margin: '0 auto' }}>
                 <p>EGA - Chính Sách Đổi Trả Tốt Nhất Cho Nội Thất Chất Lượng</p>
                 <p>Tại EGA, chúng tôi cam kết đem đến cho khách hàng sự hài lòng tối đa và trải nghiệm mua sắm dễ dàng, đáng tin cậy. Chính vì vậy, chúng tôi tự hào giới thiệu Chính Sách Đổi Trả Tốt Nhất cho các sản phẩm nội thất, bao gồm giường, ghế, bộ phòng ngủ, nội thất phòng khách và nhiều hơn nữa.</p>
                 <p>Chúng tôi hiểu rằng việc lựa chọn nội thất phù hợp với không gian sống là một quyết định quan trọng, và có thể đòi hỏi sự cân nhắc kỹ lưỡng. Do đó, chúng tôi mang đến Chính Sách Đổi Trả linh hoạt và tiện lợi, nhằm giúp bạn hoàn toàn yên tâm trong quá trình mua sắm.</p>
@@ -92,7 +105,6 @@ export default function InforProductPage() {
             </div>
         )
     }
-
     const ItemPolicies = ({ image, title, desc }: any) => {
         return (
             <div style={{ width: '25%', display: 'flex', alignItems: 'center', padding: '20px 0' }}>
@@ -107,16 +119,21 @@ export default function InforProductPage() {
 
     return (
         <div>
-            <div style={{ paddingTop: 100, width: '85%', margin: '0 auto' }}>
+            <div style={{ paddingTop: 100, width: '75%', margin: '0 auto' }}>
                 <p style={{ fontWeight: '450', fontSize: 17 }}>Trang chủ / Sản phẩm/ <span style={{ fontWeight: '500' }}>{location.name}</span> </p>
 
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', marginTop: 20 }}>
 
-                    <div style={{ width: '50%', height: '40%' }}>
-                        <img src={location.image} alt="" style={{ width: '100%', height: '100%' }} />
+                    <div style={{ width: '60%', display: 'flex' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'auto', width: '9%', height: '50%' }}>
+                            {location.image.map(((item, index) => <img key={index} src={item.imageProduct} style={{ width: '100%', height: '50%', objectFit: 'cover' }} alt="" onClick={() => {setImageProduct(item.imageProduct); setColorProduct(item.color)}} />))}
+                        </div>
+                        <div style={{ width: '90%', maxHeight: 400 }}>
+                            <img src={imageProduct} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        </div>
                     </div>
 
-                    <div style={{ width: '50%' }}>
+                    <div style={{ width: '40%' }}>
                         <p style={{ margin: 0, fontSize: 25, fontWeight: '500' }}>{location.name}</p>
                         <div>
                             <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
@@ -133,7 +150,7 @@ export default function InforProductPage() {
                         </div>
                         <p>(Tiết kiệm <span style={{ color: 'red' }}>31.200.000₫</span>)</p>
 
-                        <div style={{ padding: '20px 10px 5px', border: '3px dashed black', borderRadius: 10, position: 'relative' }}>
+                        <div style={{ padding: '20px 10px 5px', border: '3px dashed black', borderRadius: 10, position: 'relative', marginTop: 15 }}>
                             <div style={{ display: 'flex', padding: '0 5px', position: 'absolute', top: '-10%', left: '3%', backgroundColor: 'white' }}>
                                 <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/icon-product-promotion.png?1723020948426" alt="" style={{ height: 'auto', width: '12%' }} />
                                 <p style={{ width: '100%', margin: '0 5px', fontSize: 15, fontWeight: '500' }}>KHUYẾN MẠI - ƯU ĐÃI</p>
@@ -146,28 +163,39 @@ export default function InforProductPage() {
                         </div>
 
                         <div>
-                            <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 18, fontWeight: 'bold' }}>MÃ GIẢM GIÁ</p>
+                            <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>MÃ GIẢM GIÁ</p>
                             <div style={{ display: 'flex' }}>
                                 <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>EGAFREESHIP</div>
                                 <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM50K</div>
                                 <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM30</div>
                                 <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM40</div>
                             </div>
-                        </div>
 
-                        <div>
-                            <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
-
-                                <div style={{ width: '20%', display: 'flex', justifyContent: 'space-between', border: '1px solid black', borderRadius: 10, alignItems: 'center' }}>
-                                    <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(0)}>-</p>
-                                    <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 22 }}>{quantity}</p>
-                                    <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(1)}>+</p>
+                            {location.image[0].color !== "" ?
+                                <div>
+                                    <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>Màu sắc: {colorProduct} </p>
+                                    <div style={{ display: 'flex' }}>
+                                        {location.image.map((item, index) => (
+                                            <div key={index} style={{ width: 35, height: 35, display: 'flex', border: '1px solid #bdbdbd', borderRadius: 50, margin: '0 5px', padding: 2 }}>
+                                                <img src={item.imageProduct} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 50 }} alt="" onClick={() => {setImageProduct(item.imageProduct); setColorProduct(item.color)}}/>
+                                            </div>))
+                                        }
+                                    </div>
                                 </div>
-                                <button style={{ width: '78%', padding: '7px 0', borderRadius: 10, fontSize: 18, fontWeight: '500' }}>Thêm vào giỏ hàng</button>
-                            </div>
-
-                            <button style={{ width: '100%', backgroundColor: 'black', padding: '7px 0', borderRadius: 5, color: 'white', fontSize: 18, fontWeight: '500' }}>Mua ngay</button>
+                                :
+                                <div></div>
+                            }
                         </div>
+
+                        <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ width: '20%', display: 'flex', justifyContent: 'space-between', border: '1px solid black', borderRadius: 10, alignItems: 'center' }}>
+                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(0)}>-</p>
+                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 22 }}>{quantity}</p>
+                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(1)}>+</p>
+                            </div>
+                            <button style={{ width: '78%', padding: '7px 0', borderRadius: 10, fontSize: 18, fontWeight: '500' }} onClick={addCart}>Thêm vào giỏ hàng</button>
+                        </div>
+                        <button style={{ width: '100%', backgroundColor: 'black', padding: '7px 0', borderRadius: 5, color: 'white', fontSize: 18, fontWeight: '500' }}>Mua ngay</button>
 
                         <p style={{ margin: '20px auto', textAlign: 'center', fontSize: 18 }}>Gọi đặt mua <span style={{ fontSize: 18, color: '#ec720e', fontWeight: '500' }}>1800.0000</span> (7:30 - 22:00)</p>
 
@@ -203,11 +231,11 @@ export default function InforProductPage() {
                     </div>
                 </div>
 
-                <div style={{width: '100%', border: '1px solid #d7d9e2', padding: 20 }}>
+                <div style={{ width: '100%', border: '1px solid #d7d9e2', padding: 20 }}>
                     <h2>Nhận xét</h2>
-                    <div style={{ margin: '0 auto', border: '1px solid #d7d9e2', backgroundColor: '#f2f8ea', textAlign: 'center', padding: 30}}>
+                    <div style={{ margin: '0 auto', border: '1px solid #d7d9e2', backgroundColor: '#f2f8ea', textAlign: 'center', padding: 30 }}>
                         <p>Hiện tại sản phẩm chưa có đánh giá nào, bạn hãy trở thành người đầu tiên đánh giá cho sản phẩm này</p>
-                        <button style={{backgroundColor: '#80bb35', padding: '5px 10px', border: 0, color: 'white'}}>Gửi đánh giá của bạn</button>
+                        <button style={{ backgroundColor: '#80bb35', padding: '5px 10px', border: 0, color: 'white' }}>Gửi đánh giá của bạn</button>
                     </div>
                 </div>
 
@@ -274,6 +302,6 @@ export default function InforProductPage() {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
