@@ -22,6 +22,17 @@ router.get('/getAllProduct', async (req, res) => {
     }
 })
 
+router.get('/getProductSize', async (req, res) => {
+    try{
+        const skip = req.query.skip;
+        const limit = req.query.limit;
+        const product = await Product.find().skip(skip).limit(limit);
+        res.send(product);
+    }catch(err){
+        console.log(err);
+    }
+})
+
 router.get('/getProduct/:id', async (req, res) => {
     try{
         const id = req.params.id;

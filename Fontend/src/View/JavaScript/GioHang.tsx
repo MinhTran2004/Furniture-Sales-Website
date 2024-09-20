@@ -12,7 +12,7 @@ export default function CartPage() {
 
     const getAllCart = async () => {
         try {
-            await CartSevice.getAllCart().then((reponses) => setData(reponses?.data));
+            await CartSevice.getAllCart().then((reponses) => setData(reponses));
         } catch (err) {
             console.log(err);
         }
@@ -30,31 +30,41 @@ export default function CartPage() {
                 if (quantity > 1) {
                     setQuantity(quantity - 1);
                     try {
-                        await CartSevice.updateCartQuantityById(cart.idProduct, (quantity - 1).toString());
+                        deleteCartById()
                     } catch (err) {
                         console.log(err);
                     }
-                }else{
-                    try{
-                        await CartSevice.deleteCartById(cart.idProduct); 
-                    }catch(err){
+                } else {
+                    try {
+                        const reponse = await CartSevice.deleteCartById(cart._id);
+                        setData(reponse);
+                    } catch (err) {
                         console.log(err);
                     }
                 }
             } else {
                 setQuantity(quantity + 1);
                 try {
-                    await CartSevice.updateCartQuantityById(cart.idProduct, (quantity + 1).toString());
+                    deleteCartById()
                 } catch (err) {
                     console.log(err);
                 }
             }
         }
 
+        const deleteCartById = async () => {
+            try {
+                const reponse = await CartSevice.deleteCartById(cart._id);
+                setData(reponse);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FaX style={{ color: '#d7d9e2' }} />
+                    <FaX style={{ color: '#d7d9e2' }} onClick={() => deleteCartById()} />
                     <img src={cart.image} alt="" style={{ width: '20%' }} />
                     <div>
                         <p style={{ margin: 0, fontWeight: '500', fontSize: 17 }}>{cart.name}</p>
@@ -128,8 +138,16 @@ export default function CartPage() {
 
                         }
 
-                        <p style={{ fontWeight: '500', fontSize: 16 }}>Ghi chú đơn hàng</p>
-                        <textarea style={{ width: '100%', border: '1px solid #d7d9e2', resize: 'none', height: 50 }} rows={8} />
+                        {data.length !== 0 ?
+                            (<div>
+                                    <p style={{ fontWeight: '500', fontSize: 16 }}>Ghi chú đơn hàng</p>
+                                    <textarea style={{ width: '100%', border: '1px solid #d7d9e2', resize: 'none', height: 50 }} rows={8} />
+                                </div>)
+                            :
+                            (<div></div>)
+                        }
+
+
                     </div>
 
                     <div style={{ width: '30%' }}>

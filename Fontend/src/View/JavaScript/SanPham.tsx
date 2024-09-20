@@ -3,20 +3,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FaFilter, FaRegStar } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
 import { Link } from "react-router-dom"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
+import { ProductSevice } from "../../Sevice/ProductSevice"
+import { ProductModel } from "../../Model/ProductModel"
 
 export default function ProductPage() {
     const drawFilter = useRef<any>(null);
+    const [data, setData] = useState<ProductModel[]>([]);
+    const [size, setSize] = useState(0);
 
+    const getAllProduct = async () => {
+        try {
+            const reponse = await ProductSevice.getProductSize(size);
+            setData(reponse);
+            setSize(size + 5);
+            console.log(data);
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // const filterData = () => {
+
+    // }
+
+    useEffect(() => {
+        getAllProduct();
+    }, [])
+
+    // componenet 
     const changeDraw = () => {
         if (drawFilter.current) {
             drawFilter.current.style.display =
                 drawFilter.current.style.display === 'block' ? 'none' : 'block';
         }
     };
-
-    // component
     const ItemCoupon = ({ title, desc, code, date }: any) => {
         return (
             <div className={styles.item_Coupon}>
@@ -110,7 +133,7 @@ export default function ProductPage() {
 
                 {/* main */}
                 <div className={styles.title}>
-                    <p style={{ fontSize: 25, fontWeight: '500', margin: '30px 10px' }}>Tất cả sản phẩm</p>
+                    <p style={{ fontSize: 25, fontWeight: '500', margin: '30px 10px' }} onClick={() => getAllProduct()}>Tất cả sản phẩm</p>
                     <FaFilter className={styles.icon_filter} onClick={() => changeDraw()} />
                 </div>
 

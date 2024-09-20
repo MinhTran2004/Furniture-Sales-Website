@@ -13,7 +13,7 @@ export class CartSevice {
 
     static async getAllCart() {
         try {
-            return (await axios.get('http://localhost:5000/cart/getAllCart'));
+            return (await axios.get('http://localhost:5000/cart/getAllCart')).data;
         } catch (err) {
             console.log(err);
         }
@@ -29,8 +29,8 @@ export class CartSevice {
 
     static async deleteCartById(id:string){
         try{
-            await axios.delete(`http://localhost:5000/cart/deleteCartById/${id}`)
-            .then(() => {return this.getAllCart()});
+            await axios.delete(`http://localhost:5000/cart/deleteCartById/${id}`);
+            return this.getAllCart();
         }catch(err){
             console.log(err);
         }
