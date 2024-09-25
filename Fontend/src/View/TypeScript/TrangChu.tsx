@@ -5,8 +5,8 @@ import { FaRegStar } from "react-icons/fa"
 import { Link } from "react-router-dom";
 import styles from "../CSS/TrangChu.module.css";
 import { useEffect, useState } from "react";
-import { ProductSevice } from "../../Sevice/ProductSevice";
 import { ProductModel } from "../../Model/ProductModel";
+import { ProductController } from "../../Controller/ProductController";
 
 interface ItemFlashSale {
     product: ProductModel;
@@ -24,7 +24,7 @@ export default function HomePage() {
 
     const getData = async () => {
         try {
-            const reponse = await ProductSevice.getAllProduct();
+            const reponse = await ProductController.getAllProduct();
             setDataFlashSale1(reponse.filter((item: ProductModel) => item.type === "Ghế Sofa"));
             setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Đèn" || item.type === "Ghế"));
         } catch (err) {

@@ -9,8 +9,11 @@ import { TextField } from '@mui/material';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { UserSevice } from '../../Sevice/UserSevice';
 import { UserModel } from '../../Model/UserModel';
+import { UserController } from '../../Controller/UserController';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../Redux/Action';
+import { useNavigate } from 'react-router-dom';
 
 export default function DangNhap() {
     const [value, setValue] = useState('1');
@@ -22,11 +25,20 @@ export default function DangNhap() {
         const [account, setAccount] = useState('');
         const [password, setPassword] = useState('');
 
+        const dispatch = useDispatch();
+        const navigate = useNavigate();
+
+        const submitLogin = () => {
+            const user = new UserModel(undefined, account, password, undefined, undefined);
+            dispatch(addUser(user));
+            navigate("/");
+        }        
+
         return (
             <div className={styles.containerInput}>
                 <TextField value={account} onChange={(text) => setAccount(text.target.value)} label="Username" className={styles.inputLayout} size={'small'} />
                 <TextField value={password} onChange={(text) => setPassword(text.target.value)} label="Password" className={styles.inputLayout} style={{ marginTop: 15 }} size={'small'} />
-                <Button style={{ backgroundColor: '#1565c0', color: 'white', marginTop: 20 }}>Đăng nhập</Button>
+                <button style={{ backgroundColor: '#1b86ff', color: 'white', marginTop: 20, border: '1px solid #e4dbd5', borderRadius: 5, padding: '5px 10px' }} onClick={() => submitLogin()}>Đăng nhập</button>
             </div>
         )
     }
@@ -39,7 +51,7 @@ export default function DangNhap() {
         const btnRegister = async () => {
             try{
                 const data = new UserModel(undefined, account, password, phone, undefined);
-                await UserSevice.addUser(data);
+                await UserController.addUser(data);
             }catch(err){
                 console.log(err);
             }
@@ -68,7 +80,7 @@ export default function DangNhap() {
     }
 
     return (
-        <div style={{ flex: 1, paddingTop: 60 }}>
+        <div style={{ paddingTop: 60 }}>
 
             <div className={styles.container}>
                 <Box sx={{ width: '100%', typography: 'body1', }}>

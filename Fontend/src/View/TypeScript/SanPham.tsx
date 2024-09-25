@@ -5,8 +5,8 @@ import { IoMdClose } from "react-icons/io"
 import { Link } from "react-router-dom"
 import {useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
-import { ProductSevice } from "../../Sevice/ProductSevice"
 import { ProductModel } from "../../Model/ProductModel"
+import { ProductController } from "../../Controller/ProductController"
 
 export default function ProductPage() {
     const drawFilter = useRef<any>(null);
@@ -18,7 +18,7 @@ export default function ProductPage() {
     }
     const getAllProduct = async () => {
         try {
-            const reponse = await ProductSevice.getAllProductByFilter("All", "");
+            const reponse = await ProductController.getAllProductByFilter("All", "");
             setData(reponse);
             // eslint-disable-next-line
         } catch (err) {
@@ -46,7 +46,7 @@ export default function ProductPage() {
 
     const getAllProductByFilter = async (filter: String, data: String) => {
         try {
-            const reponse = await ProductSevice.getAllProductByFilter(filter, data);
+            const reponse = await ProductController.getAllProductByFilter(filter, data);
             setData(reponse);
         } catch (err) {
             console.log(err);

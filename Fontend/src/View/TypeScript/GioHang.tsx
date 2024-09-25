@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
-import { CartSevice } from "../../Sevice/CartSevice";
 import { CartModel } from "../../Model/CartModel";
 import styles from "../CSS/GioHang.module.css";
+import { CartController } from "../../Controller/CartController";
 
 export default function CartPage() {
     const [data, setData] = useState<CartModel[]>([])
@@ -18,7 +18,7 @@ export default function CartPage() {
 
     const getAllCart = async () => {
         try {
-            const reponse = await CartSevice.getAllCart();
+            const reponse = await CartController.getAllCart();
             setData(reponse);
             let sum = 0
             reponse.map((item: CartModel) => sum = sum + Number(item.sale));
@@ -48,7 +48,7 @@ export default function CartPage() {
                     }
                 } else {
                     try {
-                        const reponse = await CartSevice.deleteCartById(cart.id);
+                        const reponse = await CartController.deleteCartById(cart.id);
                         setData(reponse);
                     } catch (err) {
                         console.log(err);
@@ -66,7 +66,7 @@ export default function CartPage() {
 
         const deleteCartById = async () => {
             try {
-                await CartSevice.deleteCartById(cart._id);
+                await CartController.deleteCartById(cart._id);
                 getAllCart();
             } catch (err) {
                 console.log(err);

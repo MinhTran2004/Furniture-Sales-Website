@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import styles from "../CSS/KhuyenMai.module.css"
 import { useEffect, useState } from "react"
 import { ProductModel } from "../../Model/ProductModel"
-import { ProductSevice } from "../../Sevice/ProductSevice"
+import { ProductController } from "../../Controller/ProductController"
 
 export default function PromotionPage() {
     const [data, setData] = useState<ProductModel[]>([]);
@@ -17,7 +17,7 @@ export default function PromotionPage() {
 
     const getProductSize = async() => {
         try{
-            const reponse = await ProductSevice.getProductSize(8);
+            const reponse = await ProductController.getAllProductByFilter("All", "");
             setData(reponse);
         }catch(err){
             console.log(err);

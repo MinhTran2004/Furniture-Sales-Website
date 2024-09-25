@@ -20,14 +20,4 @@ export class ProductSevice{
             console.log(err);
         }
     }
-
-    //lay san pham theo so luong
-    static async getProductSize(size:number){
-        try{
-            const reponse = await axios.get(`http://localhost:5000/product/getProductSize`);
-            return reponse.data;
-        }catch(err){
-            console.log(err);
-        }
-    }
 }

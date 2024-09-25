@@ -4,9 +4,9 @@ import { useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { useLocation } from "react-router-dom"
 import { ProductModel } from "../../Model/ProductModel";
-import { CartSevice } from "../../Sevice/CartSevice";
 import { CartModel } from "../../Model/CartModel";
 import styles from "../CSS/Thongtinsanpham.module.css";
+import { CartController } from "../../Controller/CartController";
 
 export default function InforProductPage() {
     const location: ProductModel = useLocation().state;
@@ -23,7 +23,7 @@ export default function InforProductPage() {
     const addCart = async () => {
         try {
             const product = new CartModel(undefined, location._id, imageProduct, location.name, colorProduct, location.sale, "1", "true");
-            await CartSevice.addCart(product);
+            await CartController.addCart(product);
         } catch (err) {
             console.log(err);
         }
