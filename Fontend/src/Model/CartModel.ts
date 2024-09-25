@@ -1,5 +1,5 @@
 export class CartModel {
-    _id: string;
+    id: string;
     idProduct: string;
     image: string;
     name: string;
@@ -8,8 +8,8 @@ export class CartModel {
     quantity: string;
     status: string;
 
-    constructor(_id: string = "", idProduct: string = "", image: string = "", name: string = "", color: string = "", sale: string = "", quantity: string = "", status: string = "") {
-        this._id = _id;
+    constructor(id: string = "", idProduct: string = "", image: string = "", name: string = "", color: string = "", sale: string = "", quantity: string = "", status: string = "") {
+        this.id = id;
         this.idProduct = idProduct;
         this.image = image;
         this.name = name;

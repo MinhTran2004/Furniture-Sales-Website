@@ -3,8 +3,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FaRegStar } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import styles from "../CSS/KhuyenMai.module.css"
+import { useEffect, useState } from "react"
+import { ProductModel } from "../../Model/ProductModel"
+import { ProductSevice } from "../../Sevice/ProductSevice"
 
 export default function PromotionPage() {
+    const [data, setData] = useState<ProductModel[]>([]);
+
+    const ConvertMoney = (price:String) => {
+        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return convertMoney;
+    }
+
+    const getProductSize = async() => {
+        try{
+            const reponse = await ProductSevice.getProductSize(8);
+            setData(reponse);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getProductSize();
+    },[])
+
 
     const ItemCoupon = ({ title, desc, code, date }: any) => {
         return (
@@ -42,27 +65,27 @@ export default function PromotionPage() {
             </div>
         )
     }
-    const ItemProduct = ({ image, name, sale, price, label, quantity, status }: any) => {
+    const ItemProduct = (item : ProductModel) => {
         return (
             <Link
                 to="/ThongTinSanPham"
-                state={{ image, name, sale, price, label, quantity, status }}
+                state={item}
                 className={styles.itemProduct}>
                 <div className={styles.img_Product}>
-                    <img src={image} alt="" style={{ width: '100%' }} />
+                    <img src={item.image[0].imageProduct} alt="" style={{ width: '100%' }} />
                 </div>
 
                 <div className={styles.body_Product}>
-                    <p className={styles.name_Product}>{name}</p>
+                    <p className={styles.name_Product}>{item.name}</p>
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_Product}>{sale}</p>
+                    <p className={styles.sale_Product}>{ConvertMoney(item.sale)}</p>
                     <div style={{ display: 'flex' }}>
-                        <p className={styles.price_Product}>{price}</p>
-                        <p className={styles.label_Product}>-{label}%</p>
+                        <p className={styles.price_Product}>{ConvertMoney(item.price)}</p>
+                        <p className={styles.label_Product}>-{item.label}%</p>
                     </div>
                 </div>
             </Link>
@@ -86,14 +109,11 @@ export default function PromotionPage() {
 
                 {/* main */}
                 <div className={styles.container_Product}>
-                    <ItemProduct name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000$'} label={50} quantity={28} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Bọc Vải Siêu Rộng Lewis Extra QP243'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={46} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/rectangle2b82fc8df70254ff7ba5f.jpg?v=1721288309203'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Bọc Vải Phong Cách Scandinavian'} price={'33.750.000₫'} sale={'67.500.000₫'} label={50} quantity={96} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/951481666x12496f7cdf2128e24243.jpg?v=1721288302580'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Phòng Khách Truyền Thống QP113'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={87} image={'https://bizweb.dktcdn.net/thumb/grande/100/491/756/products/anhsanphamd7d53ac32ef245df9fb3.jpg?v=1721288299183'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000$'} label={50} quantity={14} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Bọc Vải Siêu Rộng Lewis Extra QP243'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={96} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/rectangle2b82fc8df70254ff7ba5f.jpg?v=1721288309203'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Bọc Vải Phong Cách Scandinavian'} price={'33.750.000₫'} sale={'67.500.000₫'} label={50} quantity={61} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/951481666x12496f7cdf2128e24243.jpg?v=1721288302580'} status={"sale"} />
-                    <ItemProduct name={'Sofa Băng Phòng Khách Truyền Thống QP113'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={99} image={'https://bizweb.dktcdn.net/thumb/grande/100/491/756/products/anhsanphamd7d53ac32ef245df9fb3.jpg?v=1721288299183'} status={"sale"} />
+                    {data.map((item:ProductModel, index) => (
+                        <ItemProduct key={index} {...item} />
+                    ))
+
+                    }
                 </div>
             </div>
 

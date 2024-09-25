@@ -68,6 +68,7 @@
 /* Fillter */
 .left_Filter {
     width: 20%;
+    margin-bottom: 50px;
 }
 
 .icon_filter {
@@ -91,6 +92,7 @@
     width: 80%;
     display: grid;
     grid-template-columns: auto auto auto auto;
+    margin-bottom: 50px;
 }
 
 .itemProduct {
@@ -100,7 +102,7 @@
 }
 
 .img_Product {
-    height: 50%;
+    height: 250px;
     display: flex;
     justify-content: center;
     object-fit: cover

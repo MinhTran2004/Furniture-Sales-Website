@@ -6,24 +6,28 @@ import { useLocation } from "react-router-dom"
 import { ProductModel } from "../../Model/ProductModel";
 import { CartSevice } from "../../Sevice/CartSevice";
 import { CartModel } from "../../Model/CartModel";
+import styles from "../CSS/Thongtinsanpham.module.css";
 
 export default function InforProductPage() {
-    const location: ProductModel = useLocation().state.product;
+    const location: ProductModel = useLocation().state;
 
     const [imageProduct, setImageProduct] = useState(location.image[0].imageProduct);
     const [colorProduct, setColorProduct] = useState(location.image[0].color);
     const [quantity, setQuantity] = useState(1);
     const [tab, setTab] = useState('TabDescribe');
 
+    const ConvertMoney = (price: String) => {
+        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return convertMoney;
+    }
     const addCart = async () => {
-        try{
+        try {
             const product = new CartModel(undefined, location._id, imageProduct, location.name, colorProduct, location.sale, "1", "true");
-            console.log(await CartSevice.addCart(product));
-        }catch(err){
+            await CartSevice.addCart(product);
+        } catch (err) {
             console.log(err);
         }
     }
-
     const changeQuantity = (status: Number) => {
         if (status === 0) {
             if (quantity > 1) {
@@ -107,11 +111,11 @@ export default function InforProductPage() {
     }
     const ItemPolicies = ({ image, title, desc }: any) => {
         return (
-            <div style={{ width: '25%', display: 'flex', alignItems: 'center', padding: '20px 0' }}>
-                <img src={image} alt="" />
+            <div className={styles.item_Policies}>
+                <img src={image} alt="" className={styles.img_Policies} />
                 <div>
-                    <p style={{ margin: '0px 10px', fontSize: 15, color: 'white', fontWeight: '500' }}>{title}</p>
-                    <p style={{ margin: '0px 10px', fontSize: 15, color: 'white' }}>{desc}</p>
+                    <p className={styles.title_Policies}>{title}</p>
+                    <p className={styles.desc_Policies}>{desc}</p>
                 </div>
             </div>
         )
@@ -119,109 +123,109 @@ export default function InforProductPage() {
 
     return (
         <div>
-            <div style={{ paddingTop: 100, width: '75%', margin: '0 auto' }}>
-                <p style={{ fontWeight: '450', fontSize: 17 }}>Trang chủ / Sản phẩm/ <span style={{ fontWeight: '500' }}>{location.name}</span> </p>
+            <div className={styles.main}>
+                <p style={{ fontWeight: '500', fontSize: 17 }}>Trang chủ / Sản phẩm/ <span style={{ fontWeight: '500' }}>{location.name}</span> </p>
 
-                <div style={{ display: 'flex', marginTop: 20 }}>
-
-                    <div style={{ width: '60%', display: 'flex' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'auto', width: '9%', height: '50%' }}>
-                            {location.image.map(((item, index) => <img key={index} src={item.imageProduct} style={{ width: '100%', height: '50%', objectFit: 'cover' }} alt="" onClick={() => {setImageProduct(item.imageProduct); setColorProduct(item.color)}} />))}
+                <div className={styles.container_product}>
+                    {/* image_product */}
+                    <div className={styles.main_product}>
+                        <div style={{ width: '10%'}}>
+                            {location.image.map(((item, index) => <img key={index} src={item.imageProduct} className={styles.image_item_Product} alt="" onClick={() => { setImageProduct(item.imageProduct); setColorProduct(item.color) }} />))}
                         </div>
-                        <div style={{ width: '90%', maxHeight: 400 }}>
+                        <div style={{ width: '90%' }}>
                             <img src={imageProduct} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         </div>
                     </div>
 
-                    <div style={{ width: '40%' }}>
-                        <p style={{ margin: 0, fontSize: 25, fontWeight: '500' }}>{location.name}</p>
+                    {/* info_product */}
+                    <div className={styles.main_info_product}>
+                        <p className={styles.name_product}>{location.name}</p>
+                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                        <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
                         <div>
-                            <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                            <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                            <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                            <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
-                            <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
+                            <p className={styles.id_product}>Thương hiệu: Đang cập nhật</p>
+                            <p className={styles.id_product}>Mã sản phẩm: {location._id}</p>
                         </div>
-                        <p>Thương hiệu: Đang cập nhật <span style={{ marginLeft: 30 }}>Mã sản phẩm: 123</span></p>
+
                         <div style={{ display: 'flex' }}>
-                            <p style={{ margin: 0, color: 'red', fontWeight: '500', fontSize: 22 }}>{location.sale}</p>
-                            <p style={{ margin: 'auto 10px', textDecoration: 'line-through', fontSize: 18, color: '#979797', textAlign: 'center' }}>{location.price}</p>
-                            <p style={{ margin: 'auto 0', alignSelf: 'center', fontSize: 16, fontWeight: '500', backgroundColor: '#e9330d', borderRadius: 20, color: 'white', padding: '2px 10px' }}>-{location.label}%</p>
+                            <p className={styles.sale_product}>{ConvertMoney(location.sale)}</p>
+                            <p className={styles.price_product}>{ConvertMoney(location.price)}</p>
+                            <p className={styles.label_product}>-{location.label}%</p>
                         </div>
-                        <p>(Tiết kiệm <span style={{ color: 'red' }}>31.200.000₫</span>)</p>
+                        <p>(Tiết kiệm <span style={{ color: 'red' }}>{ConvertMoney(location.sale)}</span>)</p>
 
                         <div style={{ padding: '20px 10px 5px', border: '3px dashed black', borderRadius: 10, position: 'relative', marginTop: 15 }}>
                             <div style={{ display: 'flex', padding: '0 5px', position: 'absolute', top: '-10%', left: '3%', backgroundColor: 'white' }}>
-                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/icon-product-promotion.png?1723020948426" alt="" style={{ height: 'auto', width: '12%' }} />
-                                <p style={{ width: '100%', margin: '0 5px', fontSize: 15, fontWeight: '500' }}>KHUYẾN MẠI - ƯU ĐÃI</p>
+                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/icon-product-promotion.png?1723020948426" alt="" style={{ height: 'auto', width: '10%' }} />
+                                <p className={styles.gift_product}>KHUYẾN MẠI - ƯU ĐÃI</p>
                             </div>
-                            <ul>
+                            <ul className={styles.text_gift_product}>
                                 <li>Nhập mã <span>EGANY</span> thêm 5% đơn hàng</li>
                                 <li>Miễn phí Ship cho đơn hàng từ 300.000₫</li>
                                 <li>Đổi trả trong 30 ngày nếu sản phẩm lỗi bất kì</li>
                             </ul>
                         </div>
 
-                        <div>
-                            <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>MÃ GIẢM GIÁ</p>
-                            <div style={{ display: 'flex' }}>
-                                <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>EGAFREESHIP</div>
-                                <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM50K</div>
-                                <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM30</div>
-                                <div style={{ border: '1px solid #ec720e', color: '#ec720e', marginRight: 10, padding: 5, borderRadius: 10 }}>GIAM40</div>
-                            </div>
-
-                            {location.image[0].color !== "" ?
-                                <div>
-                                    <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>Màu sắc: {colorProduct} </p>
-                                    <div style={{ display: 'flex' }}>
-                                        {location.image.map((item, index) => (
-                                            <div key={index} style={{ width: 35, height: 35, display: 'flex', border: '1px solid #bdbdbd', borderRadius: 50, margin: '0 5px', padding: 2 }}>
-                                                <img src={item.imageProduct} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 50 }} alt="" onClick={() => {setImageProduct(item.imageProduct); setColorProduct(item.color)}}/>
-                                            </div>))
-                                        }
-                                    </div>
-                                </div>
-                                :
-                                <div></div>
-                            }
+                        <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>MÃ GIẢM GIÁ</p>
+                        <div style={{ display: 'flex' }}>
+                            <div className={styles.coupon}>EGAFREESHIP</div>
+                            <div className={styles.coupon}>GIAM50K</div>
+                            <div className={styles.coupon}>GIAM30</div>
+                            <div className={styles.coupon}>GIAM40</div>
                         </div>
 
-                        <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ width: '20%', display: 'flex', justifyContent: 'space-between', border: '1px solid black', borderRadius: 10, alignItems: 'center' }}>
-                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(0)}>-</p>
-                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 22 }}>{quantity}</p>
-                                <p style={{ width: '33%', margin: 'auto 0', textAlign: 'center', fontSize: 25 }} onClick={() => changeQuantity(1)}>+</p>
+                        {location.image[0].color !== "" ?
+                            <div>
+                                <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>Màu sắc: {colorProduct} </p>
+                                <div style={{ display: 'flex' }}>
+                                    {location.image.map((item, index) => (
+                                        <div key={index} style={{ width: 35, height: 35, display: 'flex', border: '1px solid #bdbdbd', borderRadius: 50, margin: '0 5px', padding: 2 }}>
+                                            <img src={item.imageProduct} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 50 }} alt="" onClick={() => { setImageProduct(item.imageProduct); setColorProduct(item.color) }} />
+                                        </div>))
+                                    }
+                                </div>
                             </div>
-                            <button style={{ width: '78%', padding: '7px 0', borderRadius: 10, fontSize: 18, fontWeight: '500' }} onClick={addCart}>Thêm vào giỏ hàng</button>
+                            :
+                            <div></div>
+                        }
+
+                        <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <div className={styles.container_quantity}>
+                                <p className={styles.quantity} onClick={() => changeQuantity(0)}>-</p>
+                                <p className={styles.quantity}>{quantity}</p>
+                                <p className={styles.quantity} onClick={() => changeQuantity(1)}>+</p>
+                            </div>
+                            <button className={styles.btn_cart} onClick={addCart}>Thêm vào giỏ hàng</button>
                         </div>
                         <button style={{ width: '100%', backgroundColor: 'black', padding: '7px 0', borderRadius: 5, color: 'white', fontSize: 18, fontWeight: '500' }}>Mua ngay</button>
 
-                        <p style={{ margin: '20px auto', textAlign: 'center', fontSize: 18 }}>Gọi đặt mua <span style={{ fontSize: 18, color: '#ec720e', fontWeight: '500' }}>1800.0000</span> (7:30 - 22:00)</p>
+                        <p className={styles.phone_product}>Gọi đặt mua <span style={{ color: '#ec720e', fontWeight: '500' }}>1800.0000</span> (7:30 - 22:00)</p>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ display: 'flex', width: '33%', height: 'auto' }}>
-                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_1.png?1723020948426" alt="" style={{ width: '12%', height: '50%' }} />
-                                <p style={{ margin: '0 5px' }}>Giao hàng toàn quốc</p>
+                            <div style={{ display: 'flex', width: '33%', alignItems: 'center' }}>
+                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_1.png?1723020948426" alt="" className={styles.media_icon} />
+                                <p className={styles.media_text}>Giao hàng toàn quốc</p>
                             </div>
-                            <div style={{ display: 'flex', width: '33%', height: 'auto' }}>
-                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_2.png?1723020948426" alt="" style={{ width: '12%', height: '50%' }} />
-                                <p style={{ margin: '0 5px' }}>Tích điểm tất cả sản phẩm</p>
+                            <div style={{ display: 'flex', width: '33%', alignItems: 'center' }}>
+                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_2.png?1723020948426" alt="" className={styles.media_icon} />
+                                <p className={styles.media_text}>Tích điểm tất cả sản phẩm</p>
                             </div>
-                            <div style={{ display: 'flex', width: '33%', height: 'auto' }}>
-                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_3.png?1723020948426" alt="" style={{ width: '12%', height: '50%' }} />
-                                <p style={{ margin: '0 5px' }}>Giảm 5% khi thanh toán online</p>
+                            <div style={{ display: 'flex', width: '33%', alignItems: 'center' }}>
+                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policy_product_image_3.png?1723020948426" alt="" className={styles.media_icon} />
+                                <p className={styles.media_text}>Giảm 5% khi thanh toán online</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div style={{ margin: '70px auto 0' }}>
-                    <div style={{ width: '40%', margin: '0 auto', display: 'flex', justifyContent: 'space-between' }}>
-                        <button style={{ color: '#9c9c9c', fontSize: 18, fontWeight: 600, marginBottom: 10, border: 0, backgroundColor: 'white' }} onClick={() => setTab('TabDescribe')}>Mô tả sản phẩm</button>
-                        <button style={{ color: '#9c9c9c', fontSize: 18, fontWeight: 600, marginBottom: 10, border: 0, backgroundColor: 'white' }} onClick={() => setTab('TabDeliveryPolicy')}>Chính sách giao hàng</button>
-                        <button style={{ color: '#9c9c9c', fontSize: 18, fontWeight: 600, marginBottom: 10, border: 0, backgroundColor: 'white' }} onClick={() => setTab('TabReturnPolicy')}>Chính sách đổi trả</button>
+                    <div className={styles.container_tabs}>
+                        <button className={styles.tab_content} onClick={() => setTab('TabDescribe')}>Mô tả sản phẩm</button>
+                        <button className={styles.tab_content} onClick={() => setTab('TabDeliveryPolicy')}>Chính sách giao hàng</button>
+                        <button className={styles.tab_content} onClick={() => setTab('TabReturnPolicy')}>Chính sách đổi trả</button>
                     </div>
 
                     <div style={{ borderTop: '1px solid #d7d9e2', paddingTop: 10 }}>
@@ -232,72 +236,65 @@ export default function InforProductPage() {
                 </div>
 
                 <div style={{ width: '100%', border: '1px solid #d7d9e2', padding: 20 }}>
-                    <h2>Nhận xét</h2>
+                    <p style={{fontWeight: '500'}}>Nhận xét</p>
                     <div style={{ margin: '0 auto', border: '1px solid #d7d9e2', backgroundColor: '#f2f8ea', textAlign: 'center', padding: 30 }}>
                         <p>Hiện tại sản phẩm chưa có đánh giá nào, bạn hãy trở thành người đầu tiên đánh giá cho sản phẩm này</p>
                         <button style={{ backgroundColor: '#80bb35', padding: '5px 10px', border: 0, color: 'white' }}>Gửi đánh giá của bạn</button>
                     </div>
                 </div>
-
-
-
-
             </div>
 
             {/* footer */}
-            <div>
-                <div style={{ padding: '0 7.3%', backgroundColor: '#ec720e', marginTop: 100 }}>
-                    <div style={{ display: 'flex' }}>
-                        <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
-                        <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
-                        <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
-                        <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
-                    </div>
+            <div className={styles.container_Policies}>
+                <div style={{ display: 'flex' }}>
+                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
+                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
+                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
+                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
                 </div>
+            </div>
 
-                <div style={{ backgroundColor: '#292929' }}>
+            <div style={{ backgroundColor: '#292929' }}>
+                <div className={styles.container_footer}>
+                    <div className={styles.item_footer}>
+                        <img src={require('../Image/image_logo_home_2.webp')} alt="" style={{ width: '80%', padding: '0 0 10px' }} />
+                        <p className={styles.title_footer}>iêu thị nội thất EGA</p>
+                        <p className={styles.li_menu_footer}>Thương hiệu nội thất uy tín và chất lượng, cam kết mang đến những trải nghiệm mua sắm tiện lợi, hiện đại và phong phú</p>
+                        <p className={styles.li_menu_footer}>Mã số thuế: 12345678999</p>
+                        <p className={styles.li_menu_footer}><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
+                        <p className={styles.li_menu_footer}><FontAwesomeIcon icon={faPhone} /> Số điện thoại: 19006750</p>
+                        <p className={styles.li_menu_footer}><FontAwesomeIcon icon={faEnvelope} />support@sapo.vn</p>
+                        <p className={styles.li_menu_footer}>© Bản quyền thuộc về EGANY| Cung cấp bởi </p>
+                    </div>
 
-                    <div style={{ width: '87%', margin: 'auto', padding: '80px 0', display: 'flex', justifyContent: 'space-between' }}>
-                        <div style={{ width: '25%', padding: '0 20px' }}>
-                            <img src={require('../Image/image_logo_home_2.webp')} alt="" style={{ width: '50%', padding: '0 0 10px' }} />
-                            <h3 style={{ color: 'white' }}>Siêu thị nội thất EGA</h3>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Thương hiệu nội thất uy tín và chất lượng, cam kết mang đến những trải nghiệm mua sắm tiện lợi, hiện đại và phong phú</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>Mã số thuế: 12345678999</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ: 70 Lu Gia, District 11, Ho Chi Minh City</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faPhone} /> Số điện thoại: 19006750</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}><FontAwesomeIcon icon={faEnvelope} />support@sapo.vn</p>
-                            <p style={{ color: 'white', margin: '10px 0 0', fontSize: 14 }}>© Bản quyền thuộc về EGANY| Cung cấp bởi </p>
+                    <div className={styles.item_footer}>
+                        <p className={styles.title_footer}>Hỗ trợ khách hàng</p>
+                        <p className={styles.li_menu_footer}>Giới thiệu</p>
+                        <p className={styles.li_menu_footer}>Thông tin liên hệ</p>
+                        <p className={styles.li_menu_footer}>Tra cứu cửa hàng</p>
+                        <p className={styles.li_menu_footer}>Tư vấn nội thất theo phong thủy</p>
+                    </div>
+
+                    <div className={styles.item_footer}>
+                        <h5 style={{ color: 'white' }}>Chính sách</h5>
+                        <p className={styles.li_menu_footer}>Điều khoản dịch vụ</p>
+                        <p className={styles.li_menu_footer}>Chính sách bảo mật</p>
+                        <p className={styles.li_menu_footer}>Chính sách đổi trả</p>
+                        <p className={styles.li_menu_footer}>Chính sách giao hàng</p>
+                        <p className={styles.li_menu_footer}>Chương trình cộng tác viên</p>
+
+                        <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/footer_trustbadge.png?1723020948426" alt="" style={{ marginTop: 50, width: '100%' }} />
+                    </div>
+
+                    <div className={styles.item_footer}>
+                        <h5 style={{ color: 'white' }}>ĐĂNG KÝ NHẬN TIN</h5>
+                        <p style={{ color: 'white', fontSize: 14 }}>Bạn muốn nhận được khuyến mãi đặc biệt? Đăng kí ngay</p>
+
+                        <div style={{ position: 'relative' }}>
+                            <input placeholder="Nhập địa chỉ Email" style={{ width: '100%', padding: '8px 20px 8px 10px', borderRadius: 20, fontSize: 14 }} />
+                            <button style={{ padding: '3px 10px', borderRadius: 20, backgroundColor: '#292929', color: 'white', position: 'absolute', top: '11%', right: 5, fontSize: 15 }}>Đăng kí</button>
                         </div>
-
-                        <div style={{ width: '25%' }}>
-                            <h5 style={{ color: 'white', marginBottom: 20 }}>Hỗ trợ khách hàng</h5>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Giới thiệu</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Thông tin liên hệ</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Tra cứu cửa hàng</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Tư vấn nội thất theo phong thủy</p>
-                        </div>
-
-                        <div style={{ width: '25%' }}>
-                            <h5 style={{ color: 'white' }}>Chính sách</h5>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Điều khoản dịch vụ</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Chính sách bảo mật</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Chính sách đổi trả</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Chính sách giao hàng</p>
-                            <p style={{ color: 'white', margin: '5px 0 0', fontSize: 14 }}>Chương trình cộng tác viên</p>
-
-                            <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/footer_trustbadge.png?1723020948426" alt="" style={{ marginTop: 50 }} />
-                        </div>
-
-                        <div style={{ width: '25%' }}>
-                            <h5 style={{ color: 'white' }}>ĐĂNG KÝ NHẬN TIN</h5>
-                            <p style={{ color: 'white', fontSize: 14 }}>Bạn muốn nhận được khuyến mãi đặc biệt? Đăng kí ngay</p>
-
-                            <div style={{ position: 'relative' }}>
-                                <input placeholder="Nhập địa chỉ Email" style={{ width: '100%', padding: '8px 20px 8px 10px', borderRadius: 20, fontSize: 14 }} />
-                                <button style={{ padding: '3px 10px', borderRadius: 20, backgroundColor: '#292929', color: 'white', position: 'absolute', top: '11%', right: 5, fontSize: 15 }}>Đăng kí</button>
-                            </div>
-                            <img src={require('../Image/footer_img.png')} alt="" style={{ marginTop: 30 }} />
-                        </div>
+                        <img src={require('../Image/footer_img.png')} alt="" style={{ marginTop: 30, width: '100%' }} />
                     </div>
                 </div>
             </div>

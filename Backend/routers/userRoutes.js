@@ -3,6 +3,7 @@ const User = require('../model/user');
 
 const router = express.Router();
 
+//Tao tai khoan
 router.post('/addUser', async (req, res) => {
     try {
         const user = new User(req.body);
@@ -11,7 +12,7 @@ router.post('/addUser', async (req, res) => {
         console.log(err);
     }
 })
-
+//Kiem tra tai khoan
 router.get('/getUser', async (req, res) => {
     try {
         const users = await User.find();
@@ -21,7 +22,7 @@ router.get('/getUser', async (req, res) => {
         res.status(500).send({ error: err.message });
     }
 });
-
+//Xoa tai khoan
 router.delete('/deleteUser/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -30,6 +31,5 @@ router.delete('/deleteUser/:id', async (req, res) => {
         console.log(err);
     }
 })
-
 
 module.exports = router;

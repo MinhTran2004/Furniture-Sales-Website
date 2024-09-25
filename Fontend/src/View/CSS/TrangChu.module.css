@@ -110,7 +110,7 @@
     object-fit: cover
 }
 
-.img_FlashSale:hover{
+.img_FlashSale:hover {
     transform: scale(0.9);
 }
 
@@ -160,9 +160,18 @@
 .progressBar_FlashSale {
     height: 5px;
     margin-top: 5px;
-    background-color: '#c8c8c8';
-    border-radius: 20;
-    width: '100%';
+    background-color: #c8c8c8;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.btn_allProduct {
+    background-color: white;
+    color: #ec720e;
+    border: 1px solid #ec720e;
+    border-radius: 8px;
+    padding: 5px 15px;
+    text-decoration: none;
 }
 
 /* stoty */
@@ -339,24 +348,24 @@
     }
 
     .name_FlashSale {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .icon_star {
-        font-size: 11px;
+        font-size: 9px;
         margin: 0;
     }
 
     .sale_FlashSale {
-        font-size: 11px;
+        font-size: 9px;
     }
 
     .price_FlashSale {
-        font-size: 11px;
+        font-size: 9px;
     }
 
     .label_FlashSale {
-        font-size: 9px;
+        font-size: 7px;
         margin-left: 5px;
     }
 
@@ -367,6 +376,11 @@
 
     .progressBar_FlashSale {
         height: 5px;
+    }
+    .btn_allProduct{
+        padding: 3px 5px;
+        margin-top: 30px;
+        font-size: 13px;
     }
 
     /* story */
@@ -382,9 +396,10 @@
     }
 
     /* Policies */
-    .container_Policies{
+    .container_Policies {
         padding: 0 20px;
     }
+
     .img_Policies {
         width: 100%;
         width: 18%;
@@ -494,7 +509,8 @@
     }
 
     .itemFlashSale {
-        padding: 0 3px;
+        padding: 0 2px;
+        margin-bottom: 20px;
     }
 
     .body_FlashSale {
@@ -505,17 +521,17 @@
         font-size: 10px;
     }
 
-    .icon_star{
-        font-size: 11px;
+    .icon_star {
+        font-size: 10px;
         margin: 0;
     }
 
     .sale_FlashSale {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .price_FlashSale {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .label_FlashSale {
@@ -525,11 +541,14 @@
 
     .quantity_FlashSale {
         margin-left: 3px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .progressBar_FlashSale {
         height: 5px;
+    }
+    .btn_allProduct{
+        margin-top: 20px;
     }
 
     /* story */
@@ -641,26 +660,25 @@
     }
 
     .name_FlashSale {
-        font-size: 13px;
+        font-size: 11px;
         margin: 0;
     }
 
     .icon_star {
-        font-size: 13px;
+        font-size: 11px;
         margin: 0;
-        margin: '5px 0'
     }
 
     .sale_FlashSale {
-        font-size: 13px;
+        font-size: 11px;
     }
 
     .price_FlashSale {
-        font-size: 13px;
+        font-size: 11px;
     }
 
     .label_FlashSale {
-        font-size: 10px;
+        font-size: 8px;
     }
 
     .quantity_FlashSale {
@@ -670,6 +688,9 @@
 
     .progressBar_FlashSale {
         height: 5px;
+    }
+    .btn_allProduct{
+        margin-top: 20px;
     }
 
     /* Policies */
@@ -701,11 +722,12 @@
     .main {
         width: 95%;
     }
-    .title{
+
+    .title {
         font-size: 22px;
     }
 
-    .banner1{
+    .banner1 {
         margin: 50px 0;
     }
 
@@ -756,7 +778,8 @@
     .name_FlashSale {
         font-size: 13px;
     }
-    .icon_star{
+
+    .icon_star {
         font-size: 13px;
     }
 

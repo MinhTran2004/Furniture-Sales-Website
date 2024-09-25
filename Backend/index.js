@@ -17,10 +17,6 @@ app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/cart', cartRoutes);
 
-app.get('/api', (req, res) => {
-  res.json({ title: 'Hello Minhhh' });
-});
-
 app.listen(port, () => {
   console.log(`Ứng dụng đang lắng nghe trên cổng ${port}`);
 });

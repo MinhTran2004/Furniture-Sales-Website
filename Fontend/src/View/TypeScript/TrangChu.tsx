@@ -17,11 +17,16 @@ export default function HomePage() {
     const [dataFlashSale1, setDataFlashSale1] = useState<ProductModel[]>([]);
     const [dataFlashSale2, setDataFlashSale2] = useState<ProductModel[]>([]);
 
+    const ConvertMoney = (price:String) => {
+        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return convertMoney;
+    }
+
     const getData = async () => {
         try {
             const reponse = await ProductSevice.getAllProduct();
-            setDataFlashSale1(reponse.filter((item: ProductModel) => item.type === "Ghe Sofa"));
-            setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Den" || item.type === "Ghe"));
+            setDataFlashSale1(reponse.filter((item: ProductModel) => item.type === "Ghế Sofa"));
+            setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Đèn" || item.type === "Ghế"));
         } catch (err) {
             console.log(err);
         }
@@ -80,12 +85,11 @@ export default function HomePage() {
         return (
             <Link
                 to="/ThongTinSanPham"
-                state={{ product }}
+                state={ product }
                 className={styles.itemFlashSale}>
                 <div className={styles.img_FlashSale}>
                     <img src={product.image[0].imageProduct} alt="" style={{ width: '100%', objectFit: 'contain' }} />
                 </div>
-
                 <div className={styles.body_FlashSale}>
                     <p className={styles.name_FlashSale}>{product.name}</p>
                     <FaRegStar className={styles.icon_star} />
@@ -93,9 +97,9 @@ export default function HomePage() {
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_FlashSale}>{product.sale}</p>
+                    <p className={styles.sale_FlashSale}>{ConvertMoney(product.sale)}</p>
                     <div style={{ display: 'flex' }}>
-                        <p className={styles.price_FlashSale}>{product.price}</p>
+                        <p className={styles.price_FlashSale}>{ConvertMoney(product.price)}</p>
                         <p className={styles.label_FlashSale}>-{product.label}%</p>
                     </div>
                 </div>
@@ -204,7 +208,7 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-                    <Link to={'/Promotion'} style={{ backgroundColor: 'white', color: '#ec720e', border: '1px solid #ec720e', borderRadius: 8, padding: '5px 15px', textDecoration: 'none' }}>Xem tất cả <FontAwesomeIcon icon={faAngleRight} style={{ fontSize: 15 }} /> </Link>
+                    <Link to={'/SanPham'} className={styles.btn_allProduct}>Xem tất cả <FontAwesomeIcon icon={faAngleRight} style={{ fontSize: 15 }} /> </Link>
                 </div>
 
                 {/* main 2 */}
@@ -346,7 +350,7 @@ export default function HomePage() {
                         <p className={styles.li_menu_footer}>© Bản quyền thuộc về EGANY| Cung cấp bởi </p>
                     </div>
 
-                    <div className="item_footer">
+                    <div className={styles.item_footer}>
                         <p className={styles.title_footer}>Hỗ trợ khách hàng</p>
                         <p className={styles.li_menu_footer}>Giới thiệu</p>
                         <p className={styles.li_menu_footer}>Thông tin liên hệ</p>

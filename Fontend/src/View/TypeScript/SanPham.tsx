@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FaFilter, FaRegStar } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
 import { Link } from "react-router-dom"
-import { useEffect, useRef, useState } from "react"
+import {useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
 import { ProductSevice } from "../../Sevice/ProductSevice"
 import { ProductModel } from "../../Model/ProductModel"
@@ -11,24 +11,47 @@ import { ProductModel } from "../../Model/ProductModel"
 export default function ProductPage() {
     const drawFilter = useRef<any>(null);
     const [data, setData] = useState<ProductModel[]>([]);
-    const [size, setSize] = useState(0);
 
+    const ConvertMoney = (price:String) => {
+        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return convertMoney;
+    }
     const getAllProduct = async () => {
         try {
-            const reponse = await ProductSevice.getProductSize(size);
+            const reponse = await ProductSevice.getAllProductByFilter("All", "");
             setData(reponse);
-            setSize(size + 5);
-            console.log(data);
-            
+            // eslint-disable-next-line
         } catch (err) {
             console.log(err);
         }
     }
+    const ItemFilter = ({ name, color }: any) => {
+        return (
+            <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
+                {color != null ?
+                    (<div style={{display: 'flex'}} onClick={() => getAllProductByFilter("color", name)}>
+                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }}></div>
+                        <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
+                    </div>)
+                    :
+                    ( 
+                    <div style={{display: 'flex'}} onClick={() => getAllProductByFilter("category", name)}>
+                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi"/>
+                        <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
+                    </div>)
+                }
+            </div>
+        )
+    }
 
-    // const filterData = () => {
-
-    // }
-
+    const getAllProductByFilter = async (filter: String, data: String) => {
+        try {
+            const reponse = await ProductSevice.getAllProductByFilter(filter, data);
+            setData(reponse);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     useEffect(() => {
         getAllProduct();
     }, [])
@@ -76,42 +99,30 @@ export default function ProductPage() {
             </div>
         )
     }
-    const ItemProduct = ({ image, name, sale, price, label, quantity, status }: any) => {
+    const ItemProduct = ( {product}:any) => {
         return (
             <Link
                 to="/ThongTinSanPham"
-                state={{ image, name, sale, price, label, quantity, status }}
+                state={product}
                 className={styles.itemProduct}>
                 <div className={styles.img_Product}>
-                    <img src={image} alt="" style={{ width: '100%' }} />
+                    <img src={product.image[0].imageProduct} alt="" style={{ width: '100%' }} />
                 </div>
 
                 <div className={styles.body_Product}>
-                    <p className={styles.name_Product}>{name}</p>
+                    <p className={styles.name_Product}>{product.name}</p>
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_Product}>{sale}</p>
+                    <p className={styles.sale_Product}>{ConvertMoney(product.sale)}</p>
                     <div style={{ display: 'flex' }}>
-                        <p className={styles.price_Product}>{price}</p>
-                        <p className={styles.label_Product}>-{label}%</p>
+                        <p className={styles.price_Product}>{ConvertMoney(product.price)}</p>
+                        <p className={styles.label_Product}>-{product.label}%</p>
                     </div>
                 </div>
             </Link>
-        )
-    }
-    const ItemFilter = ({ name, color }: any) => {
-        return (
-            <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
-                {color != null ?
-                    <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }}></div>
-                    :
-                    <input type="checkbox" style={{ width: 20, height: 20 }} />
-                }
-                <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
-            </div>
         )
     }
 
@@ -143,12 +154,12 @@ export default function ProductPage() {
                     <div className={styles.left_Filter}>
                         <div>
                             <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
-                            <ItemFilter name={"Tủ Giày - Tủ Trang Trí"} />
-                            <ItemFilter name={"Kệ Tủ Tivi"} />
+                            <ItemFilter name={"Bàn"} />
                             <ItemFilter name={"Ghế Sofa"} />
-                            <ItemFilter name={"Bàn - Ghế"} />
+                            <ItemFilter name={"Ghế"} />
+                            <ItemFilter name={"Đèn"} />
+                            <ItemFilter name={"Tủ Giày - Tủ Trang Trí"} />
                             <ItemFilter name={"Giường"} />
-                            <ItemFilter name={"Đèn Treo tường"} />
                             <ItemFilter name={"Ghế bàn Học"} />
                         </div>
 
@@ -174,32 +185,13 @@ export default function ProductPage() {
                             <ItemFilter name={"7.000.000₫ - 10.000.000₫"} />
                             <ItemFilter name={"Giá trên 10.000.000₫"} />
                         </div>
-                        <div style={{ borderTop: '1px dashed #eee' }}>
-                            <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>DỊCH VỤ GIAO HÀNG</p>
-                            <ItemFilter name={"Giá dưới 1.000.000₫"} />
-                            <ItemFilter name={"1.000.000₫ - 2.000.000₫"} />
-                            <ItemFilter name={"2.000.000₫ - 3.000.000₫"} />
-                            <ItemFilter name={"3.000.000₫ - 5.000.000₫"} />
-                            <ItemFilter name={"5.000.000₫ - 7.000.000₫"} />
-                            <ItemFilter name={"7.000.000₫ - 10.000.000₫"} />
-                            <ItemFilter name={"Giá trên 10.000.000₫"} />
-                        </div>
                     </div>
 
                     {/* product  */}
                     <div className={styles.container_Product}>
-                        <ItemProduct name={'Đèn tường Studio'} sale={'5.800.000₫'} price={'8.900.000₫'} label={'35'} image={require('../Image/arrival_1.webp')} />
-                        <ItemProduct name={'Đèn tường Wally'} sale={'5.500.000₫'} price={'8.900.000₫'} label={'39'} image={require('../Image/arrival_2.webp')} />
-                        <ItemProduct name={'Mochi Pouffe / Nhiều màu'} sale={'7.290.000₫'} price={'8.300.000₫'} label={'13'} image={require('../Image/arrival_3.webp')} />
-                        <ItemProduct name={'Bàn Cà Phê Raw Đá Cẩm Thạch'} sale={'12.250.000₫'} price={'16.500.000'} label={'26'} image={require('../Image/arrival_4.webp')} />
-                        <ItemProduct name={'Đèn tường Studio'} sale={'5.800.000₫'} price={'8.900.000₫'} label={'35'} image={require('../Image/arrival_1.webp')} />
-                        <ItemProduct name={'Đèn tường Wally'} sale={'5.500.000₫'} price={'8.900.000₫'} label={'39'} image={require('../Image/arrival_2.webp')} />
-                        <ItemProduct name={'Mochi Pouffe / Nhiều màu'} sale={'7.290.000₫'} price={'8.300.000₫'} label={'13'} image={require('../Image/arrival_3.webp')} />
-                        <ItemProduct name={'Bàn Cà Phê Raw Đá Cẩm Thạch'} sale={'12.250.000₫'} price={'16.500.000'} label={'26'} image={require('../Image/arrival_4.webp')} />
-                        <ItemProduct name={'Đèn tường Studio'} sale={'5.800.000₫'} price={'8.900.000₫'} label={'35'} image={require('../Image/arrival_1.webp')} />
-                        <ItemProduct name={'Đèn tường Wally'} sale={'5.500.000₫'} price={'8.900.000₫'} label={'39'} image={require('../Image/arrival_2.webp')} />
-                        <ItemProduct name={'Mochi Pouffe / Nhiều màu'} sale={'7.290.000₫'} price={'8.300.000₫'} label={'13'} image={require('../Image/arrival_3.webp')} />
-                        <ItemProduct name={'Bàn Cà Phê Raw Đá Cẩm Thạch'} sale={'12.250.000₫'} price={'16.500.000'} label={'26'} image={require('../Image/arrival_4.webp')} />
+                        {data.map((product:ProductModel ) => (
+                            <ItemProduct key={product._id} product = {product} />
+                        ))}
                     </div>
                 </div>
             </div>

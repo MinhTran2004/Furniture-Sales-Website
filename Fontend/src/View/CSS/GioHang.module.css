@@ -1,0 +1,562 @@
+.main {
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 70px;
+}
+
+/* item_cart */
+.container_cart {
+    height: 480px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.image_cart {
+    width: 15%;
+    margin: 0 10px;
+}
+
+.name_cart {
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.sale_cart {
+    color: red;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0 20px;
+}
+
+.btn_change_quantity {
+    padding: 5px 13px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500
+}
+
+/* item_product */
+.image_product {
+    height: 250px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.name_product {
+    font-weight: 500;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.sale_product {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.price_product {
+    text-decoration: line-through;
+    font-size: 14px;
+}
+
+.label_product {
+    margin: 0 10px;
+    font-size: 13px;
+    background-color: #e9330d;
+    border-radius: 20px;
+    color: white;
+    padding: 2px 5px;
+}
+
+/* hoa don */
+.title_sell {
+    color: #e9330d;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+
+.date_sell {
+    padding: 3px;
+    width: 80%;
+}
+
+.total_sell {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.btn_sell {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 8px 0;
+    margin: 10px 0;
+    border-radius: 5px
+}
+
+/* FlashSale */
+.itemFlashSale {
+    padding: 0 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.img_FlashSale {
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    object-fit: cover
+}
+
+.img_FlashSale:hover {
+    transform: scale(0.9);
+}
+
+.body_FlashSale {
+    height: 140px;
+}
+
+.name_FlashSale {
+    font-weight: 500;
+    font-size: 18px
+}
+
+.icon_star {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #ffbe00;
+}
+
+.sale_FlashSale {
+    color: red;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.price_FlashSale {
+    text-decoration: line-through;
+    font-size: 17px;
+}
+
+.label_FlashSale {
+    margin: 0 10px;
+    align-self: center;
+    font-size: 13px;
+    background-color: #e9330d;
+    border-radius: 20px;
+    color: white;
+    padding: 1px 5px;
+    font-weight: 500;
+}
+
+/* footer */
+.container_footer {
+    width: 87%;
+    margin: auto;
+    padding: 80px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_footer {
+    width: 25%;
+    padding: 0 20px
+}
+
+.title_footer {
+    font-size: 20px;
+    color: white;
+    font-weight: 500;
+}
+
+.li_menu_footer {
+    color: white;
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 575px) {
+    .main {
+        width: 98%;
+    }
+
+    /* cart */
+    .container_cart {
+        height: 200px;
+    }
+
+    .image_cart {
+        width: 22%;
+    }
+
+    .name_cart {
+        font-size: 11px;
+    }
+
+    .sale_cart {
+        font-size: 11px;
+        margin: 0 5px;
+    }
+
+    .btn_change_quantity {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    /* sell */
+    .title_sell {
+        font-size: 9px;
+    }
+
+    .title_date_sell {
+        font-size: 8px;
+    }
+
+    .date_sell {
+        width: 80%;
+        font-size: 7px;
+    }
+
+    .total_sell {
+        font-size: 8px;
+    }
+
+    .title_date_sell{
+        font-size: 7px;
+    }
+
+    .btn_sell {
+        font-size: 8px;
+        padding: 0;
+    }
+
+    /* FlashSale */
+    .itemFlashSale {
+        padding: 0 3px;
+    }
+
+    .body_FlashSale {
+        height: 90px;
+    }
+
+    .name_FlashSale {
+        font-size: 9px;
+    }
+
+    .icon_star {
+        font-size: 9px;
+        margin: 0;
+    }
+
+    .sale_FlashSale {
+        font-size: 9px;
+    }
+
+    .price_FlashSale {
+        font-size: 9px;
+    }
+
+    .label_FlashSale {
+        font-size: 7px;
+        margin-left: 5px;
+    }
+
+    /* story */
+    .text_stoty {
+        font-size: 13px;
+        margin-left: 30px;
+        text-align: justify;
+    }
+
+    /* footer */
+    .container_footer {
+        display: block;
+    }
+
+    .item_footer {
+        margin-top: 20px;
+        width: 100%;
+        padding: 0 10px;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .main {
+        width: 98%;
+    }
+
+    /* cart */
+    .container_cart {
+        height: 200px;
+    }
+
+    .image_cart {
+        width: 22%;
+    }
+
+    .name_cart {
+        font-size: 11px;
+    }
+
+    .sale_cart {
+        font-size: 11px;
+        margin: 0 5px;
+    }
+
+    .btn_change_quantity {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    /* sell */
+    .title_sell {
+        font-size: 10px;
+    }
+
+    .title_date_sell {
+        font-size: 8px;
+    }
+
+    .date_sell {
+        width: 80%;
+        font-size: 7px;
+    }
+
+    .total_sell {
+        font-size: 10px;
+    }
+
+    .btn_sell {
+        font-size: 10px;
+        padding: 0;
+    }
+
+    /* FlashSale */
+    .itemFlashSale {
+        padding: 0 2px;
+        margin-bottom: 20px;
+    }
+
+    .body_FlashSale {
+        height: 90px;
+    }
+
+    .name_FlashSale {
+        font-size: 10px;
+    }
+
+    .icon_star {
+        font-size: 10px;
+        margin: 0;
+    }
+
+    .sale_FlashSale {
+        font-size: 10px;
+    }
+
+    .price_FlashSale {
+        font-size: 10px;
+    }
+
+    .label_FlashSale {
+        font-size: 9px;
+        margin-left: 5px;
+    }
+
+    /* footer */
+    .container_footer {
+        display: block;
+    }
+
+    .item_footer {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .title_Policies {
+        font-size: 13px;
+    }
+
+    .desc_Policies {
+        font-size: 11px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .main {
+        width: 95%;
+    }
+
+    /* cart */
+    .container_cart {
+        height: 330px;
+    }
+
+    .image_cart {
+        width: 20%;
+    }
+
+    .name_cart {
+        font-size: 13px;
+    }
+
+    .sale_cart {
+        font-size: 13px;
+        margin: 0 10px;
+    }
+
+    .btn_change_quantity {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    /* sell */
+    .title_sell {
+        font-size: 13px;
+    }
+
+    .title_date_sell {
+        font-size: 10px;
+    }
+
+    .date_sell {
+        width: 80%;
+        font-size: 10px;
+    }
+
+    .total_sell {
+        font-size: 12px;
+    }
+
+    .btn_sell {
+        padding: 0;
+    }
+
+    /* Policies */
+    .img_Policies {
+        width: 100%;
+        width: 18%;
+    }
+
+    /* FlashSale */
+    .banner1 {
+        margin: 40px 10px;
+    }
+
+    .body_FlashSale {
+        height: 100px;
+    }
+
+    .name_FlashSale {
+        font-size: 11px;
+        margin: 0;
+    }
+
+    .icon_star {
+        font-size: 11px;
+        margin: 0;
+    }
+
+    .sale_FlashSale {
+        font-size: 11px;
+    }
+
+    .price_FlashSale {
+        font-size: 11px;
+    }
+
+    .label_FlashSale {
+        font-size: 8px;
+    }
+
+    /* footer */
+    .container_footer {
+        display: block;
+    }
+
+    .item_footer {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .title_Policies {
+        font-size: 13px;
+    }
+
+    .desc_Policies {
+        font-size: 11px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .main {
+        width: 95%;
+    }
+
+    /* cart */
+    .container_cart {
+        height: 330px;
+    }
+
+    .image_cart {
+        width: 20%;
+    }
+
+    .name_cart {
+        font-size: 13px;
+    }
+
+    .sale_cart {
+        font-size: 15px;
+        margin: 0 10px;
+    }
+
+    .btn_change_quantity {
+        padding: 5px 10px;
+        font-size: 17px;
+    }
+
+    /* sell */
+    .title_sell {
+        font-size: 15px;
+    }
+
+    .title_date_sell {
+        font-size: 12px;
+    }
+
+    .date_sell {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    .total_sell {
+        font-size: 14px;
+    }
+
+    .btn_sell {
+        padding: 3px;
+    }
+
+    .name_FlashSale {
+        font-size: 13px;
+    }
+
+    .icon_star {
+        font-size: 13px;
+    }
+
+    .sale_FlashSale {
+        font-size: 13px;
+    }
+
+    .price_FlashSale {
+        font-size: 13px;
+    }
+
+    .label_FlashSale {
+        font-size: 11px;
+    }
+}
