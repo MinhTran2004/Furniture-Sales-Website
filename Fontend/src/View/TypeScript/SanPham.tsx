@@ -1,21 +1,17 @@
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { FaFilter, FaRegStar } from "react-icons/fa"
+import { FaFilter } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
-import { Link } from "react-router-dom"
-import {useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
 import { ProductModel } from "../../Model/ProductModel"
 import { ProductController } from "../../Controller/ProductController"
+import { SanPhamComponent } from "../Component/SanPhamComponent" 
 
 export default function ProductPage() {
     const drawFilter = useRef<any>(null);
     const [data, setData] = useState<ProductModel[]>([]);
 
-    const ConvertMoney = (price:String) => {
-        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        return convertMoney;
-    }
     const getAllProduct = async () => {
         try {
             const reponse = await ProductController.getAllProductByFilter("All", "");
@@ -24,24 +20,6 @@ export default function ProductPage() {
         } catch (err) {
             console.log(err);
         }
-    }
-    const ItemFilter = ({ name, color }: any) => {
-        return (
-            <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
-                {color != null ?
-                    (<div style={{display: 'flex'}} onClick={() => getAllProductByFilter("color", name)}>
-                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }}></div>
-                        <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
-                    </div>)
-                    :
-                    ( 
-                    <div style={{display: 'flex'}} onClick={() => getAllProductByFilter("category", name)}>
-                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi"/>
-                        <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
-                    </div>)
-                }
-            </div>
-        )
     }
 
     const getAllProductByFilter = async (filter: String, data: String) => {
@@ -52,6 +30,7 @@ export default function ProductPage() {
             console.log(err);
         }
     }
+
     useEffect(() => {
         getAllProduct();
     }, [])
@@ -63,68 +42,7 @@ export default function ProductPage() {
                 drawFilter.current.style.display === 'block' ? 'none' : 'block';
         }
     };
-    const ItemCoupon = ({ title, desc, code, date }: any) => {
-        return (
-            <div className={styles.item_Coupon}>
-                <div className={styles.container_img_Coupon}>
-                    <img src={require("../Image/coupon.webp")} className={styles.img_Coupon} alt="" />
-                </div>
 
-                <div className={styles.body_Coupon}>
-                    <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <p className={styles.title_Coupon}>{title}</p>
-                            <img src={require('../Image/info.png')} style={{ width: '8%', height: '8%' }} alt="" />
-                        </div>
-                        <p className={styles.desc_Coupon}>{desc}</p>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 5 }}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <p className={styles.desc_Coupon}>Mã: </p>
-                                <p className={styles.title_Coupon}>{code}</p>
-                            </div>
-                            <p className={styles.desc_Coupon}>HSD: {date}</p>
-                        </div>
-
-                        {title === "FREESHIP" ?
-                            (<button className={styles.button_Coupon}>Sao chép</button>)
-                            :
-                            (<img src={require('../Image/outdated.webp')} alt="" style={{ width: '25%' }} />)
-                        }
-                    </div>
-                </div>
-
-            </div>
-        )
-    }
-    const ItemProduct = ( {product}:any) => {
-        return (
-            <Link
-                to="/ThongTinSanPham"
-                state={product}
-                className={styles.itemProduct}>
-                <div className={styles.img_Product}>
-                    <img src={product.image[0].imageProduct} alt="" style={{ width: '100%' }} />
-                </div>
-
-                <div className={styles.body_Product}>
-                    <p className={styles.name_Product}>{product.name}</p>
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_Product}>{ConvertMoney(product.sale)}</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className={styles.price_Product}>{ConvertMoney(product.price)}</p>
-                        <p className={styles.label_Product}>-{product.label}%</p>
-                    </div>
-                </div>
-            </Link>
-        )
-    }
 
     return (
         <div>
@@ -135,10 +53,10 @@ export default function ProductPage() {
 
                 <div className={styles.scroll_Coupon}>
                     <div className={styles.container_Coupon}>
-                        <ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
-                        <ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
-                        <ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
-                        <ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
+                        <SanPhamComponent.ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
+                        <SanPhamComponent.ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
+                        <SanPhamComponent.ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
+                        <SanPhamComponent.ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
                     </div>
                 </div>
 
@@ -154,43 +72,43 @@ export default function ProductPage() {
                     <div className={styles.left_Filter}>
                         <div>
                             <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
-                            <ItemFilter name={"Bàn"} />
-                            <ItemFilter name={"Ghế Sofa"} />
-                            <ItemFilter name={"Ghế"} />
-                            <ItemFilter name={"Đèn"} />
-                            <ItemFilter name={"Tủ Giày - Tủ Trang Trí"} />
-                            <ItemFilter name={"Giường"} />
-                            <ItemFilter name={"Ghế bàn Học"} />
+                            <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Đèn"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Tủ Giày - Tủ Trang Trí"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Giường"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={getAllProductByFilter} />
                         </div>
 
                         <div style={{ borderTop: '1px dashed #eee' }}>
                             <p style={{ margin: '10px 0 5px', fontWeight: '450', fontSize: 18 }}>MÀU SẮC</p>
-                            <ItemFilter name={"Đen"} color={"black"} />
-                            <ItemFilter name={"Nâu nhạt"} color={"#a77862"} />
-                            <ItemFilter name={"Xanh lá"} color={"#93c062"} />
-                            <ItemFilter name={"Hồng"} color={"#f5cac8"} />
-                            <ItemFilter name={"Đỏ"} color={"#ec042f"} />
-                            <ItemFilter name={"Trắng"} color={"#f1f0f1"} />
-                            <ItemFilter name={"Cam"} color={"#f8632e"} />
-                            <ItemFilter name={"Tím"} color={"#7f00d9"} />
+                            <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={getAllProductByFilter} />
                         </div>
 
                         <div style={{ borderTop: '1px dashed #eee' }}>
                             <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>MỨC GIÁ</p>
-                            <ItemFilter name={"Giá dưới 1.000.000₫"} />
-                            <ItemFilter name={"1.000.000₫ - 2.000.000₫"} />
-                            <ItemFilter name={"2.000.000₫ - 3.000.000₫"} />
-                            <ItemFilter name={"3.000.000₫ - 5.000.000₫"} />
-                            <ItemFilter name={"5.000.000₫ - 7.000.000₫"} />
-                            <ItemFilter name={"7.000.000₫ - 10.000.000₫"} />
-                            <ItemFilter name={"Giá trên 10.000.000₫"} />
+                            <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={getAllProductByFilter} />
                         </div>
                     </div>
 
                     {/* product  */}
                     <div className={styles.container_Product}>
-                        {data.map((product:ProductModel ) => (
-                            <ItemProduct key={product._id} product = {product} />
+                        {data.map((product) => (
+                            <SanPhamComponent.ItemProduct key={product._id} {...product} />
                         ))}
                     </div>
                 </div>
@@ -202,46 +120,36 @@ export default function ProductPage() {
                 <div style={{ overflowY: 'auto', height: '100%' }}>
                     <div>
                         <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
-                        <ItemFilter name={"Tủ Giày - Tủ Trang Trí"} />
-                        <ItemFilter name={"Kệ Tủ Tivi"} />
-                        <ItemFilter name={"Ghế Sofa"} />
-                        <ItemFilter name={"Bàn - Ghế"} />
-                        <ItemFilter name={"Giường"} />
-                        <ItemFilter name={"Đèn Treo tường"} />
-                        <ItemFilter name={"Ghế bàn Học"} />
+                        <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Đèn"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Tủ Giày - Tủ Trang Trí"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Giường"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={getAllProductByFilter} />
                     </div>
 
                     <div style={{ borderTop: '1px dashed #eee' }}>
                         <p style={{ margin: '10px 0 5px', fontWeight: '450', fontSize: 18 }}>MÀU SẮC</p>
-                        <ItemFilter name={"Đen"} color={"black"} />
-                        <ItemFilter name={"Nâu nhạt"} color={"#a77862"} />
-                        <ItemFilter name={"Xanh lá"} color={"#93c062"} />
-                        <ItemFilter name={"Hồng"} color={"#f5cac8"} />
-                        <ItemFilter name={"Đỏ"} color={"#ec042f"} />
-                        <ItemFilter name={"Trắng"} color={"#f1f0f1"} />
-                        <ItemFilter name={"Cam"} color={"#f8632e"} />
-                        <ItemFilter name={"Tím"} color={"#7f00d9"} />
+                        <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={getAllProductByFilter} />
                     </div>
 
                     <div style={{ borderTop: '1px dashed #eee' }}>
                         <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>MỨC GIÁ</p>
-                        <ItemFilter name={"Giá dưới 1.000.000₫"} />
-                        <ItemFilter name={"1.000.000₫ - 2.000.000₫"} />
-                        <ItemFilter name={"2.000.000₫ - 3.000.000₫"} />
-                        <ItemFilter name={"3.000.000₫ - 5.000.000₫"} />
-                        <ItemFilter name={"5.000.000₫ - 7.000.000₫"} />
-                        <ItemFilter name={"7.000.000₫ - 10.000.000₫"} />
-                        <ItemFilter name={"Giá trên 10.000.000₫"} />
-                    </div>
-                    <div style={{ borderTop: '1px dashed #eee' }}>
-                        <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>DỊCH VỤ GIAO HÀNG</p>
-                        <ItemFilter name={"Giá dưới 1.000.000₫"} />
-                        <ItemFilter name={"1.000.000₫ - 2.000.000₫"} />
-                        <ItemFilter name={"2.000.000₫ - 3.000.000₫"} />
-                        <ItemFilter name={"3.000.000₫ - 5.000.000₫"} />
-                        <ItemFilter name={"5.000.000₫ - 7.000.000₫"} />
-                        <ItemFilter name={"7.000.000₫ - 10.000.000₫"} />
-                        <ItemFilter name={"Giá trên 10.000.000₫"} />
+                        <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={getAllProductByFilter} />
                     </div>
                 </div>
             </div>

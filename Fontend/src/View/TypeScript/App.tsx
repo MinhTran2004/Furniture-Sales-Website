@@ -14,8 +14,6 @@ import { useSelector } from "react-redux";
 
 export default function App() {
     const selector = useSelector((state: any) => state.userReducer.item);
-    console.log(selector[0]);
-    
     return (
         <div>
             <div className="headerContainer">

@@ -1,19 +1,13 @@
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { FaRegStar } from "react-icons/fa"
-import { Link } from "react-router-dom"
 import styles from "../CSS/KhuyenMai.module.css"
 import { useEffect, useState } from "react"
 import { ProductModel } from "../../Model/ProductModel"
 import { ProductController } from "../../Controller/ProductController"
+import { KhuyenMaiComponent } from "../Component/khuyenMainComposenent"
 
 export default function PromotionPage() {
     const [data, setData] = useState<ProductModel[]>([]);
-
-    const ConvertMoney = (price:String) => {
-        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        return convertMoney;
-    }
 
     const getProductSize = async() => {
         try{
@@ -28,70 +22,6 @@ export default function PromotionPage() {
         getProductSize();
     },[])
 
-
-    const ItemCoupon = ({ title, desc, code, date }: any) => {
-        return (
-            <div className={styles.item_Coupon}>
-                <div className={styles.container_img_Coupon}>
-                    <img src={require("../Image/coupon.webp")} className={styles.img_Coupon} alt="" />
-                </div>
-
-                <div className={styles.body_Coupon}>
-                    <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <p className={styles.title_Coupon}>{title}</p>
-                            <img src={require('../Image/info.png')} style={{ width: '8%', height: '8%' }} alt="" />
-                        </div>
-                        <p className={styles.desc_Coupon}>{desc}</p>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 5 }}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <p className={styles.desc_Coupon}>Mã: </p>
-                                <p className={styles.title_Coupon}>{code}</p>
-                            </div>
-                            <p className={styles.desc_Coupon}>HSD: {date}</p>
-                        </div>
-
-                        {title === "FREESHIP" ?
-                            (<button className={styles.button_Coupon}>Sao chép</button>)
-                            :
-                            (<img src={require('../Image/outdated.webp')} alt="" style={{ width: '25%' }} />)
-                        }
-                    </div>
-                </div>
-
-            </div>
-        )
-    }
-    const ItemProduct = (item : ProductModel) => {
-        return (
-            <Link
-                to="/ThongTinSanPham"
-                state={item}
-                className={styles.itemProduct}>
-                <div className={styles.img_Product}>
-                    <img src={item.image[0].imageProduct} alt="" style={{ width: '100%' }} />
-                </div>
-
-                <div className={styles.body_Product}>
-                    <p className={styles.name_Product}>{item.name}</p>
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_Product}>{ConvertMoney(item.sale)}</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className={styles.price_Product}>{ConvertMoney(item.price)}</p>
-                        <p className={styles.label_Product}>-{item.label}%</p>
-                    </div>
-                </div>
-            </Link>
-        )
-    }
-
     return (
         <div style={{ flex: 1, backgroundColor: '#fcf4eb' }}>
             {/* header */}
@@ -100,17 +30,17 @@ export default function PromotionPage() {
 
                 <div className={styles.scroll_Coupon}>
                     <div className={styles.container_Coupon}>
-                        <ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
-                        <ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
-                        <ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
-                        <ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
+                        <KhuyenMaiComponent.ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
+                        <KhuyenMaiComponent.ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
+                        <KhuyenMaiComponent.ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
+                        <KhuyenMaiComponent.ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
                     </div>
                 </div>
 
                 {/* main */}
                 <div className={styles.container_Product}>
                     {data.map((item:ProductModel, index) => (
-                        <ItemProduct key={index} {...item} />
+                        <KhuyenMaiComponent.ItemProduct key={index} {...item} />
                     ))
 
                     }

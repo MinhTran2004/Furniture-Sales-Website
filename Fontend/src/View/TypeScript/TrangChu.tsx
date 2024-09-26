@@ -1,27 +1,16 @@
-import { faAngleRight, faCalendarDays, faEnvelope, faLocationDot, faPhone, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faEnvelope, faLocationDot, faPhone, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ProgressBar } from "react-bootstrap"
-import { FaRegStar } from "react-icons/fa"
 import { Link } from "react-router-dom";
 import styles from "../CSS/TrangChu.module.css";
 import { useEffect, useState } from "react";
 import { ProductModel } from "../../Model/ProductModel";
 import { ProductController } from "../../Controller/ProductController";
-
-interface ItemFlashSale {
-    product: ProductModel;
-    status: String;
-}
+import { TrangChuComponent } from "../Component/TrangChuComponent";
 
 export default function HomePage() {
     const [dataFlashSale1, setDataFlashSale1] = useState<ProductModel[]>([]);
     const [dataFlashSale2, setDataFlashSale2] = useState<ProductModel[]>([]);
-
-    const ConvertMoney = (price:String) => {
-        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        return convertMoney;
-    }
-
+    
     const getData = async () => {
         try {
             const reponse = await ProductController.getAllProduct();
@@ -36,139 +25,6 @@ export default function HomePage() {
         getData();
     }, [])
 
-    const ItemSeasonColl = ({ img, nameRoom, quantity }: any) => {
-        return (
-            <div className={styles.item_SeasonColl}>
-                <img src={img} alt="" className={styles.image_SeasonColl} />
-                <p className={styles.title_SeasonColl}>{nameRoom}</p>
-                <p className={styles.number_SeasonColl}>{quantity} sản phẩm</p>
-            </div>
-        )
-    }
-    const ItemCoupon = ({ title, desc, code, date }: any) => {
-        return (
-            <div className={styles.item_Coupon}>
-                <div className={styles.container_img_Coupon}>
-                    <img src={require("../Image/coupon.webp")} className={styles.img_Coupon} alt="" />
-                </div>
-
-                <div className={styles.body_Coupon}>
-                    <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <p className={styles.title_Coupon}>{title}</p>
-                            <img src={require('../Image/info.png')} style={{ width: '8%', height: '8%' }} alt="" />
-                        </div>
-                        <p className={styles.desc_Coupon}>{desc}</p>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 5 }}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <p className={styles.desc_Coupon}>Mã: </p>
-                                <p className={styles.title_Coupon}>{code}</p>
-                            </div>
-                            <p className={styles.desc_Coupon}>HSD: {date}</p>
-                        </div>
-
-                        {title === "FREESHIP" ?
-                            (<button className={styles.button_Coupon}>Sao chép</button>)
-                            :
-                            (<img src={require('../Image/outdated.webp')} alt="" style={{ width: '25%' }} />)
-                        }
-                    </div>
-                </div>
-
-            </div>
-        )
-    }
-    const ItemFlashSale = ({ product, status }: ItemFlashSale) => {
-        return (
-            <Link
-                to="/ThongTinSanPham"
-                state={ product }
-                className={styles.itemFlashSale}>
-                <div className={styles.img_FlashSale}>
-                    <img src={product.image[0].imageProduct} alt="" style={{ width: '100%', objectFit: 'contain' }} />
-                </div>
-                <div className={styles.body_FlashSale}>
-                    <p className={styles.name_FlashSale}>{product.name}</p>
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_FlashSale}>{ConvertMoney(product.sale)}</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className={styles.price_FlashSale}>{ConvertMoney(product.price)}</p>
-                        <p className={styles.label_FlashSale}>-{product.label}%</p>
-                    </div>
-                </div>
-
-                {status === "sale" ? (
-                    Number(product.quantity) > 80 ? (
-                        <div style={{ marginTop: 10 }}>
-                            <div style={{ display: 'flex', margin: '6px 0', alignItems: 'center' }}>
-                                <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/fire-icon.svg?1723020948426" style={{ width: '5%', height: '5%' }} alt="" />
-                                <p className={styles.quantity_FlashSale}>Sắp cháy hàng</p>
-                            </div>
-                            <ProgressBar variant={"warning"} now={Number(product.quantity)} className={styles.progressBar_FlashSale} />
-                        </div>)
-                        :
-                        (<div style={{ marginTop: 10 }}>
-                            <p className={styles.quantity_FlashSale}>Đã bán <span style={{ color: 'red' }}>{product.quantity}</span> sản phẩm</p>
-                            <ProgressBar variant={"warning"} now={Number(product.quantity)} className={styles.progressBar_FlashSale} />
-                        </div>)
-                )
-                    :
-                    null}
-            </Link>
-        )
-    }
-    const ItemLookbook = ({ image, title, info }: any) => {
-        return (
-            <div style={{ width: '33%', textAlign: 'center', padding: '0 10px' }}>
-                <img src={image} alt="" style={{ width: '100%' }} />
-                <p className={styles.title_Lookbook}>{title}</p>
-                <a href="#pb">{info}</a>
-            </div>
-        )
-    }
-    const ItemYoutube = ({ image }: any) => {
-        return (
-            <div style={{ width: '25%', position: 'relative' }}>
-                <a href="#a">
-                    <img src={image} alt="" style={{ width: '100%', padding: 5 }} />
-                    <FontAwesomeIcon icon={faPlay} style={{ position: 'absolute', top: '50%', left: '45%', color: 'red', backgroundColor: 'white', padding: '13px 15px', borderRadius: '100%', opacity: 0.5 }} />
-                </a>
-            </div>
-        )
-    }
-    const ItemInspiration = ({ image, title, date, contents }: any) => {
-        return (
-            <div style={{ padding: 10 }}>
-                <img src={image} alt="" style={{ width: '100%', borderRadius: 10 }} />
-                <p>{title}</p>
-
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FontAwesomeIcon icon={faCalendarDays} style={{ fontSize: '95%' }} />
-                    <p className={styles.date_Inspiration}>{date}</p>
-                </div>
-                <p className={styles.contents_Inspiration}>{contents}</p>
-                <a href="#doc" style={{ color: 'black', fontSize: 14 }}>Đọc tiếp</a>
-            </div>
-        )
-    }
-    const ItemPolicies = ({ image, title, desc }: any) => {
-        return (
-            <div className={styles.item_Policies}>
-                <img src={image} alt="" className={styles.img_Policies} />
-                <div>
-                    <p className={styles.title_Policies}>{title}</p>
-                    <p className={styles.desc_Policies}>{desc}</p>
-                </div>
-            </div>
-        )
-    }
 
     return (
         <div style={{ flex: 1, paddingTop: 60 }}>
@@ -179,20 +35,20 @@ export default function HomePage() {
                 <p className={styles.title}>Danh mục sản phẩm</p>
 
                 <div className={styles.container_SeasonColl}>
-                    <ItemSeasonColl img={require('../Image/season_coll_1_img.webp')} nameRoom={"Phòng khách"} quantity={"11"} />
-                    <ItemSeasonColl img={require('../Image/season_coll_2_img.webp')} nameRoom={"Phòng ngủ"} quantity={"8"} />
-                    <ItemSeasonColl img={require('../Image/season_coll_3_img.webp')} nameRoom={"Nhà bếp"} quantity={"8"} />
-                    <ItemSeasonColl img={require('../Image/season_coll_4_img.webp')} nameRoom={"Phòng làm việc"} quantity={"9"} />
-                    <ItemSeasonColl img={require('../Image/season_coll_5_img.webp')} nameRoom={"Dèn trang trí"} quantity={"2"} />
-                    <ItemSeasonColl img={require('../Image/season_coll_6_img.webp')} nameRoom={"Kệ lưu giữ"} quantity={"11"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_1_img.webp')} nameRoom={"Phòng khách"} quantity={"11"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_2_img.webp')} nameRoom={"Phòng ngủ"} quantity={"8"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_3_img.webp')} nameRoom={"Nhà bếp"} quantity={"8"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_4_img.webp')} nameRoom={"Phòng làm việc"} quantity={"9"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_5_img.webp')} nameRoom={"Dèn trang trí"} quantity={"2"} />
+                    <TrangChuComponent.ItemSeasonColl img={require('../Image/season_coll_6_img.webp')} nameRoom={"Kệ lưu giữ"} quantity={"11"} />
                 </div>
 
                 <div className={styles.scroll_Coupon}>
                     <div className={styles.container_Coupon}>
-                        <ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
-                        <ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
-                        <ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
-                        <ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
+                        <TrangChuComponent.ItemCoupon title={"FREESHIP"} desc={"Freeship cho đơn hàng từ 500k"} code={"EGAFREESHIP"} date={"30/12/2024"} />
+                        <TrangChuComponent.ItemCoupon title={"GIẢM 50K"} desc={"Freeship cho đơn hàng từ 600k"} code={"GIAM50K"} date={"06/07/2024"} />
+                        <TrangChuComponent.ItemCoupon title={"GIẢM 30%"} desc={"Cho các sản phẩm trong Nội thất"} code={"GIAM30"} date={"09/06/2024"} />
+                        <TrangChuComponent.ItemCoupon title={"GIẢM 40%"} desc={"Có hiệu lực khi mua 4 sản phẩm"} code={"GIAM40"} date={"20/06/2024"} />
                     </div>
                 </div>
 
@@ -203,7 +59,7 @@ export default function HomePage() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
                     {dataFlashSale1.map((product, index) => (
-                        <ItemFlashSale key={index} product={product} status={"sale"} />
+                        <TrangChuComponent.ItemFlashSale key={index} {...product} />
                     ))}
                 </div>
 
@@ -235,9 +91,9 @@ export default function HomePage() {
                 <p className={styles.title}>BST NỘI THẤT DÀNH CHO BẠN</p>
 
                 <div style={{ display: 'flex' }}>
-                    <ItemLookbook image={require('../Image/lookbook_1_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
-                    <ItemLookbook image={require('../Image/lookbook_2_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
-                    <ItemLookbook image={require('../Image/lookbook_3_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
+                    <TrangChuComponent.ItemLookbook image={require('../Image/lookbook_1_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
+                    <TrangChuComponent.ItemLookbook image={require('../Image/lookbook_2_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
+                    <TrangChuComponent.ItemLookbook image={require('../Image/lookbook_3_image.webp')} title={'BST Phòng Bếp'} info={'Xem chi tiết'} />
                 </div>
 
                 <div style={{ marginTop: 50 }}>
@@ -252,7 +108,7 @@ export default function HomePage() {
                     <div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
                             {dataFlashSale2.map((product, index) => (
-                                <ItemFlashSale key={index} product={product} status={""} />
+                                <TrangChuComponent.ItemFlashSale key={index} {...product} />
                             ))}
                         </div>
                     </div>
@@ -282,8 +138,7 @@ export default function HomePage() {
                     <div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
                             {dataFlashSale2.map((product, index) => (
-                                <ItemFlashSale key={index} product={product} status={""} />
-
+                                <TrangChuComponent.ItemFlashSale key={index} {...product}  />
                             ))}
                         </div>
                     </div>
@@ -294,10 +149,10 @@ export default function HomePage() {
                 <p className={styles.title}>VIDEO ĐƯỢC XEM NHIỀU NHẤT</p>
 
                 <div style={{ margin: '30px 0', display: 'flex', justifyContent: 'space-between' }}>
-                    <ItemYoutube image={require('../Image/video_1_img.webp')} />
-                    <ItemYoutube image={require('../Image/video_2_img.webp')} />
-                    <ItemYoutube image={require('../Image/video_3_img.webp')} />
-                    <ItemYoutube image={require('../Image/video_4_img.webp')} />
+                    <TrangChuComponent.ItemYoutube image={require('../Image/video_1_img.webp')} />
+                    <TrangChuComponent.ItemYoutube image={require('../Image/video_2_img.webp')} />
+                    <TrangChuComponent.ItemYoutube image={require('../Image/video_3_img.webp')} />
+                    <TrangChuComponent.ItemYoutube image={require('../Image/video_4_img.webp')} />
                 </div>
 
                 <p className={styles.title}>@ FOLLOW INSTAGRAM</p>
@@ -320,20 +175,20 @@ export default function HomePage() {
                 <p className={styles.title} style={{ textAlign: 'left' }}>GÓC CẢM HỨNG</p>
 
                 <div className={styles.container_Inspiration}>
-                    <ItemInspiration image={require('../Image/inspiration_1.webp')} title={'Cách trang trí cầu thang gỗ'} date={'Thứ Năm, 27/07/2023'} contents={'Trang trí cầu thang là một phần quan trọng trong nội thất của một ngôi nhà của bạn. Xu hướng sử dụng...'} />
-                    <ItemInspiration image={require('../Image/inspiration_2.webp')} title={'Vợ chồng và cách chọn giường ngủ'} date={'Thứ Năm, 27/07/2023'} contents={'Cuộc sống vợ chồng rất quan trọng về vấn đề hòa hợp, bởi vậy trước khi cưới thường có tục...'} />
-                    <ItemInspiration image={require('../Image/inspiration_3.webp')} title={'Sofa gia đình - bài trí sao cho hợp phong thủy?'} date={'Thứ Năm, 27/07/2023'} contents={'Việc bố trí sofa đúng cách không chỉ mang lại vẻ đẹp cho căn phòng mà còn mang lại may...'} />
-                    <ItemInspiration image={require('../Image/inspiration_4.webp')} title={'Sofa góc và bí quyết tăng tài lộc cho ngôi nhà của bạn'} date={'Thứ Năm, 27/07/2023'} contents={'Bí quyết nào tăng tài lộc cho ngôi nhà với Sofa góc cổ điển? Việc tìm được một vị trí để...'} />
+                    <TrangChuComponent.ItemInspiration image={require('../Image/inspiration_1.webp')} title={'Cách trang trí cầu thang gỗ'} date={'Thứ Năm, 27/07/2023'} contents={'Trang trí cầu thang là một phần quan trọng trong nội thất của một ngôi nhà của bạn. Xu hướng sử dụng...'} />
+                    <TrangChuComponent.ItemInspiration image={require('../Image/inspiration_2.webp')} title={'Vợ chồng và cách chọn giường ngủ'} date={'Thứ Năm, 27/07/2023'} contents={'Cuộc sống vợ chồng rất quan trọng về vấn đề hòa hợp, bởi vậy trước khi cưới thường có tục...'} />
+                    <TrangChuComponent.ItemInspiration image={require('../Image/inspiration_3.webp')} title={'Sofa gia đình - bài trí sao cho hợp phong thủy?'} date={'Thứ Năm, 27/07/2023'} contents={'Việc bố trí sofa đúng cách không chỉ mang lại vẻ đẹp cho căn phòng mà còn mang lại may...'} />
+                    <TrangChuComponent.ItemInspiration image={require('../Image/inspiration_4.webp')} title={'Sofa góc và bí quyết tăng tài lộc cho ngôi nhà của bạn'} date={'Thứ Năm, 27/07/2023'} contents={'Bí quyết nào tăng tài lộc cho ngôi nhà với Sofa góc cổ điển? Việc tìm được một vị trí để...'} />
                 </div>
             </div>
 
             {/* footer */}
             <div className={styles.container_Policies}>
                 <div style={{ display: 'flex' }}>
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
+                    <TrangChuComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
+                    <TrangChuComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
+                    <TrangChuComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
+                    <TrangChuComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
                 </div>
             </div>
 
