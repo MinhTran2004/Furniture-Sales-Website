@@ -1,50 +1,10 @@
-import { faCalendarDays, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 import styles from "../CSS/CamHung.module.css"
+import { CamHungComponent } from "../Component/CamHungComponent"
 
 export default function InspirationalPage() {
-    const ItemInspiration = ({ image, title, date, contents }: any) => {
-        return (
-            <div className={styles.item_Inspiration}>
-                <img src={image} className={styles.img_Inspiration} alt=""/>
-                <div style={{ marginLeft: 20 }}>
-                    <p style={{ fontSize: 22, fontWeight: '400', margin: '5px 0' }}>{title}</p>
-
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <FontAwesomeIcon icon={faCalendarDays} style={{ fontSize: 18 }} />
-                        <p style={{ fontSize: 16, color: '#889096', margin: 0, marginLeft: 5 }}>{date}</p>
-                    </div>
-
-                    <p style={{ fontSize: 17, color: '#889096', fontWeight: '400', margin: '9px 0' }}>{contents}</p>
-
-                    <a href="#doc" style={{ color: 'black', fontSize: 14 }}>Đọc tiếp</a>
-                </div>
-            </div>
-        )
-    }
-
-    const ItemNews = ({ image, title }: any) => {
-        return (
-            <div style={{ display: 'flex', marginBottom: 15 }}>
-                <img src={image} className={styles.img_news} alt=""/>
-                <p style={{ fontSize: 15, marginLeft: 10, fontWeight: '500' }}>{title}</p>
-            </div>
-        )
-    }
-
-    const ItemPolicies = ({ image, title, desc }: any) => {
-        return (
-            <div style={{ width: '25%', display: 'flex', alignItems: 'center', padding: '20px 0' }}>
-                <img src={image} alt="" />
-                <div>
-                    <p style={{ margin: '0px 10px', fontSize: 15, color: 'white', fontWeight: '500' }}>{title}</p>
-                    <p style={{ margin: '0px 10px', fontSize: 15, color: 'white' }}>{desc}</p>
-                </div>
-            </div>
-        )
-    }
-
     return (
         <div style={{ paddingTop: 70 }}>
 
@@ -54,11 +14,11 @@ export default function InspirationalPage() {
 
                 <div className={styles.container}>
                     <div className={styles.banner1}>
-                        <ItemInspiration image={require('../Image/inspiration_1.webp')} title={'Cách trang trí cầu thang gỗ'} date={'Thứ Năm, 27/07/2023'} contents={'Trang trí cầu thang là một phần quan trọng trong nội thất của một ngôi nhà của bạn. Xu hướng sử dụng gỗ trang trí cầu thang là...'} />
-                        <ItemInspiration image={require('../Image/inspiration_2.webp')} title={'Vợ chồng và cách chọn giường ngủ'} date={'Thứ Năm, 27/07/2023'} contents={'Cuộc sống vợ chồng rất quan trọng về vấn đề hòa hợp, bởi vậy trước khi cưới thường có tục lệ là đi xem ngày và...'} />
-                        <ItemInspiration image={require('../Image/inspiration_3.webp')} title={'Sofa gia đình - bài trí sao cho hợp phong thủy?'} date={'Thứ Năm, 27/07/2023'} contents={'Việc bố trí sofa đúng cách không chỉ mang lại vẻ đẹp cho căn phòng mà còn mang lại may mắn, bình an cho chủ nhà....'} />
-                        <ItemInspiration image={require('../Image/inspiration_4.webp')} title={'Sofa góc và bí quyết tăng tài lộc cho ngôi nhà của bạn'} date={'Thứ Năm, 27/07/2023'} contents={'Bí quyết nào tăng tài lộc cho ngôi nhà với Sofa góc cổ điển? Việc tìm được một vị trí để đặt Sofa góc cổ điển đã...'} />
-                        <ItemInspiration image={require('../Image/inspiration_5.webp')} title={'Vì sao kệ bếp gỗ xoan đào được nhiều người ưa chuộng'} date={'Thứ Năm, 27/07/2023'} contents={'Kệ bếp là sản phẩm không thể thiếu được trong mỗi gia đình và có độ tùy biến cao nhất vì mỗi gia đình có một...'} />
+                        <CamHungComponent.ItemInspiration image={require('../Image/inspiration_1.webp')} title={'Cách trang trí cầu thang gỗ'} date={'Thứ Năm, 27/07/2023'} contents={'Trang trí cầu thang là một phần quan trọng trong nội thất của một ngôi nhà của bạn. Xu hướng sử dụng gỗ trang trí cầu thang là...'} />
+                        <CamHungComponent.ItemInspiration image={require('../Image/inspiration_2.webp')} title={'Vợ chồng và cách chọn giường ngủ'} date={'Thứ Năm, 27/07/2023'} contents={'Cuộc sống vợ chồng rất quan trọng về vấn đề hòa hợp, bởi vậy trước khi cưới thường có tục lệ là đi xem ngày và...'} />
+                        <CamHungComponent.ItemInspiration image={require('../Image/inspiration_3.webp')} title={'Sofa gia đình - bài trí sao cho hợp phong thủy?'} date={'Thứ Năm, 27/07/2023'} contents={'Việc bố trí sofa đúng cách không chỉ mang lại vẻ đẹp cho căn phòng mà còn mang lại may mắn, bình an cho chủ nhà....'} />
+                        <CamHungComponent.ItemInspiration image={require('../Image/inspiration_4.webp')} title={'Sofa góc và bí quyết tăng tài lộc cho ngôi nhà của bạn'} date={'Thứ Năm, 27/07/2023'} contents={'Bí quyết nào tăng tài lộc cho ngôi nhà với Sofa góc cổ điển? Việc tìm được một vị trí để đặt Sofa góc cổ điển đã...'} />
+                        <CamHungComponent.ItemInspiration image={require('../Image/inspiration_5.webp')} title={'Vì sao kệ bếp gỗ xoan đào được nhiều người ưa chuộng'} date={'Thứ Năm, 27/07/2023'} contents={'Kệ bếp là sản phẩm không thể thiếu được trong mỗi gia đình và có độ tùy biến cao nhất vì mỗi gia đình có một...'} />
                     </div>
 
                     <div className={styles.banner2}>
@@ -73,10 +33,10 @@ export default function InspirationalPage() {
 
                         <div>
                             <p style={{ margin: '30px 0 10px', fontWeight: '500' }}>TIN NỔI BẬT</p>
-                            <ItemNews title={'Phòng ngủ phong cách Wabi Sabi'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/phong-cach-wabi-sabi-hap-dan-tu.jpg?v=1691427092207'} />
-                            <ItemNews title={'Phòng ngủ phong cách Loft'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/thiet-ke-bep-phong-cach-loft-102.jpg?v=1691427581617'} />
-                            <ItemNews title={'Phòng ngủ phong cách Japandi'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/phong-ngu-phong-cach-japandi-dep.jpg?v=1691426187210'} />
-                            <ItemNews title={'Phòng ngủ phong cách indochine'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/noi-that-biet-thu-phong-cach-ind.jpg?v=1691425189267'} />
+                            <CamHungComponent.ItemNews title={'Phòng ngủ phong cách Wabi Sabi'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/phong-cach-wabi-sabi-hap-dan-tu.jpg?v=1691427092207'} />
+                            <CamHungComponent.ItemNews title={'Phòng ngủ phong cách Loft'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/thiet-ke-bep-phong-cach-loft-102.jpg?v=1691427581617'} />
+                            <CamHungComponent.ItemNews title={'Phòng ngủ phong cách Japandi'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/phong-ngu-phong-cach-japandi-dep.jpg?v=1691426187210'} />
+                            <CamHungComponent.ItemNews title={'Phòng ngủ phong cách indochine'} image={'https://bizweb.dktcdn.net/thumb/medium/100/491/756/articles/noi-that-biet-thu-phong-cach-ind.jpg?v=1691425189267'} />
                         </div>
 
                         <div>
@@ -91,10 +51,10 @@ export default function InspirationalPage() {
             {/* footer */}
             <div className={styles.container_Policies}>
                 <div style={{ display: 'flex' }}>
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
+                    <CamHungComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
+                    <CamHungComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
+                    <CamHungComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
+                    <CamHungComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
                 </div>
             </div>
 

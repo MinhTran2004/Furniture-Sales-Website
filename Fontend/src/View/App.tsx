@@ -10,10 +10,11 @@ import { Dropdown } from "react-bootstrap";
 import { HiMenuAlt1 } from "react-icons/hi";
 import DangNhap from "./DangNhap";
 import { useSelector } from "react-redux";
-
+import ThanhToan from "./ThanhToan"
 
 export default function App() {
     const selector = useSelector((state: any) => state.userReducer.item);
+
     return (
         <div>
             <div className="headerContainer">
@@ -30,7 +31,7 @@ export default function App() {
                         <Dropdown.Item><Link to="/e" className="headerTitle">Hướng dẫn thiết lập</Link></Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <img src={require("../Image/image_logo_home.png")} alt="" className="headerLogo" />
+                <Link to={"/"} className="headerLogo"><img src={require("../Image/image_logo_home.png")} alt="" style={{height:'100%' , width: '100%'}} /></Link>
                 <div className="containerTitle">
                     <Link to="/" className="headerTitle">Trang chủ</Link>
                     <Link to="/SanPham" className="headerTitle">Sản phẩm</Link>
@@ -58,6 +59,7 @@ export default function App() {
                 <Route path="/ThongTinSanPham" element={<ThongTinSanPham />} />
                 <Route path="/GioHang" element={<GioHang />} />
                 <Route path="/DangNhap" element={<DangNhap />} />
+                <Route path="/ThanhToan" element={<ThanhToan/>} />
             </Routes>
 
         </div>

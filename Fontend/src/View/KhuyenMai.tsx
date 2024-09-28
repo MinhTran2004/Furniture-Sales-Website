@@ -2,8 +2,8 @@ import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styles from "../CSS/KhuyenMai.module.css"
 import { useEffect, useState } from "react"
-import { ProductModel } from "../../Model/ProductModel"
-import { ProductController } from "../../Controller/ProductController"
+import { ProductModel } from "../Model/ProductModel"
+import { ProductController } from "../Controller/ProductController"
 import { KhuyenMaiComponent } from "../Component/khuyenMainComposenent"
 
 export default function PromotionPage() {

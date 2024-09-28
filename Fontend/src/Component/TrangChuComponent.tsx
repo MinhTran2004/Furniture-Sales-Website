@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ProductModel } from "../../Model/ProductModel";
+import { ProductModel } from "../Model/ProductModel";
 import styles from "../CSS/TrangChu.module.css";
 import { FaRegStar } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -9,18 +9,21 @@ import { TextField } from '@mui/material';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { UserModel } from '../../Model/UserModel';
-import { UserController } from '../../Controller/UserController';
+import { UserModel } from '../Model/UserModel';
+import { UserController } from '../Controller/UserController';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../../Redux/Action';
+import { addUser } from '../Redux/Action';
 import { useNavigate } from 'react-router-dom';
+import { DangNhapComponent } from '../Component/DangNhapComponent';
 
 export default function DangNhap() {
     const [value, setValue] = useState('1');
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (event:any, newValue: string) => {
         setValue(newValue);
     };
+
+    // Tab-Login 
     const LoginLayout = () => {
         const [account, setAccount] = useState('');
         const [password, setPassword] = useState('');
@@ -42,7 +45,7 @@ export default function DangNhap() {
             </div>
         )
     }
-
+    // Tab-Register 
     const RegisterLayout = () => {
         const [account, setAccount] = useState('');
         const [password, setPassword] = useState('');
@@ -67,26 +70,13 @@ export default function DangNhap() {
         )
     }
 
-    const ItemPolicies = ({ image, title, desc }: any) => {
-        return (
-            <div className={styles.item_Policies}>
-                <img src={image} alt="" className={styles.img_Policies} />
-                <div>
-                    <p className={styles.title_Policies}>{title}</p>
-                    <p className={styles.desc_Policies}>{desc}</p>
-                </div>
-            </div>
-        )
-    }
-
     return (
         <div style={{ paddingTop: 60 }}>
-
             <div className={styles.container}>
                 <Box sx={{ width: '100%', typography: 'body1', }}>
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example">
+                            <TabList onChange={handleChange}>
                                 <Tab label="Đăng nhập" value="1" />
                                 <Tab label="Đăng kí" value="2" />
                             </TabList>
@@ -100,10 +90,10 @@ export default function DangNhap() {
             {/* footer */}
             <div className={styles.container_Policies}>
                 <div style={{ display: 'flex' }}>
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
-                    <ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
+                    <DangNhapComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_1.png?1723020948426'} title={'Hotline: 19001993'} desc={'Dịch vụ hỗ trợ bạn 24/7'} />
+                    <DangNhapComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_2.png?1723020948426'} title={'Quà tặng hấp dẫn'} desc={'Nhiều ưu đãi khuyến mãi hot'} />
+                    <DangNhapComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_3.png?1723020948426'} title={'Đổi trả miễn phí'} desc={'Trong vòng 7 ngày'} />
+                    <DangNhapComponent.ItemPolicies image={'https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/policies_icon_4.png?1723020948426'} title={'Giá luôn tốt nhất'} desc={'Hoàn tiền nếu nơi khác rẻ hơn'} />
                 </div>
             </div>
 
@@ -151,7 +141,6 @@ export default function DangNhap() {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

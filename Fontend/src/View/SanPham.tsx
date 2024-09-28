@@ -4,8 +4,8 @@ import { FaFilter } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
 import { useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
-import { ProductModel } from "../../Model/ProductModel"
-import { ProductController } from "../../Controller/ProductController"
+import { ProductModel } from "../Model/ProductModel"
+import { ProductController } from "../Controller/ProductController"
 import { SanPhamComponent } from "../Component/SanPhamComponent" 
 
 export default function ProductPage() {

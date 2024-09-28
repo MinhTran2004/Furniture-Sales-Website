@@ -1,20 +1,15 @@
 import { faAngleRight, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { FaRegStar } from "react-icons/fa";
-import { FaX } from "react-icons/fa6";
-import { CartModel } from "../../Model/CartModel";
+import { CartModel } from "../Model/CartModel";
 import styles from "../CSS/GioHang.module.css";
-import { CartController } from "../../Controller/CartController";
+import { CartController } from "../Controller/CartController";
+import { GioHangComponent } from "../Component/GioHangComponent";
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
     const [data, setData] = useState<CartModel[]>([])
     const [total, setTotal] = useState("");
-
-    const ConvertMoney = (price: String) => {
-        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        return convertMoney;
-    }
 
     const getAllCart = async () => {
         try {
@@ -22,21 +17,25 @@ export default function CartPage() {
             setData(reponse);
             let sum = 0
             reponse.map((item: CartModel) => sum = sum + Number(item.sale));
-            const convertSum = ConvertMoney(sum.toString());
+            const convertSum = GioHangComponent.ConvertMoney(sum.toString());
             setTotal(convertSum);
         } catch (err) {
             console.log(err);
         }
     }
 
-    useEffect(() => {
-        getAllCart();
-        // eslint-disable-next-line
-    }, [])
-
     const ItemCart = ({cart}:any ) => {
         const [quantity, setQuantity] = useState(Number(cart.quantity));
         
+        const deleteCartById = async () => {
+            try {
+                await CartController.deleteCartById(cart._id);
+                getAllCart();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
         const changeQuantity = async (status: Number) => {
             if (status === 0) {
                 if (quantity > 1) {
@@ -63,20 +62,10 @@ export default function CartPage() {
                 }
             }
         }
-
-        const deleteCartById = async () => {
-            try {
-                await CartController.deleteCartById(cart._id);
-                getAllCart();
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FaX style={{ color: '#d7d9e2' }} onClick={() => deleteCartById()} />
+                    <button style={{ border: 0, backgroundColor: 'white', fontWeight: 'bold' }} onClick={() => deleteCartById()}>X</button>
                     <img src={cart.image} alt="" className={styles.image_cart} />
                     <div>
                         <p className={styles.name_cart}>{cart.name}</p>
@@ -85,7 +74,7 @@ export default function CartPage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <p className={styles.sale_cart}>{ConvertMoney(cart.sale)}₫</p>
+                    <p className={styles.sale_cart}>{GioHangComponent.ConvertMoney(cart.sale)}₫</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #d7d9e2', borderRadius: 10 }}>
                         <p className={styles.btn_change_quantity} onClick={() => changeQuantity(0)}>-</p>
                         <p className={styles.btn_change_quantity}>{quantity}</p>
@@ -96,29 +85,10 @@ export default function CartPage() {
         )
     }
 
-    const ItemFlashSale = ({ name, price, sale, label, image }: any) => {
-        return (
-            <div className={styles.itemFlashSale}>
-                <div className={styles.img_FlashSale}>
-                    <img src={image} alt="" style={{ width: '100%', objectFit: 'contain' }} />
-                </div>
-
-                <div className={styles.body_FlashSale}>
-                    <p className={styles.name_FlashSale}>{name}</p>
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_FlashSale}>{ConvertMoney(sale)}</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className={styles.price_FlashSale}>{ConvertMoney(price)}</p>
-                        <p className={styles.label_FlashSale}>-{label}%</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    useEffect(() => {
+        getAllCart();
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div>
@@ -182,7 +152,7 @@ export default function CartPage() {
                                 </div>
                                 <p className={styles.title_date_sell}>Chọn mã giảm giá <FontAwesomeIcon icon={faAngleRight} /></p>
                             </div>
-                            <button className={styles.btn_sell}>Thanh toán</button>
+                            <Link to={"/ThanhToan"}> <button className={styles.btn_sell}>Thanh toán</button> </Link>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <img src="https://bizweb.dktcdn.net/100/491/756/themes/956460/assets/footer_trustbadge.png?1723020948426" alt="" style={{ width: '80%' }} />
                             </div>
@@ -194,10 +164,10 @@ export default function CartPage() {
                 <p style={{ margin: '40px 0 0', fontWeight: 'bold', fontSize: 27 }}>Có thể bạn sẽ thích</p>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
-                    <ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000$'} label={50} quantity={28} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
-                    <ItemFlashSale name={'Sofa Băng Bọc Vải Siêu Rộng Lewis Extra'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={46} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/rectangle2b82fc8df70254ff7ba5f.jpg?v=1721288309203'} status={"sale"} />
-                    <ItemFlashSale name={'Sofa Băng Bọc Vải Phong Cách Scandinavian'} price={'33.750.000₫'} sale={'67.500.000₫'} label={50} quantity={96} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/951481666x12496f7cdf2128e24243.jpg?v=1721288302580'} status={"sale"} />
-                    <ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP113'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={87} image={'https://bizweb.dktcdn.net/100/491/756/products/ghesofatherain225noithatgiakha-699238d0-2403-4c7e-b31a-1df700837b3d.png?v=1721288295347'} status={"sale"} />
+                    <GioHangComponent.ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP115'} price={'31.200.000$'} sale={'62.400.000$'} label={50} quantity={28} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/budwingmelaniecanape3placesgir.jpg?v=1721288299183'} status={"sale"} />
+                    <GioHangComponent.ItemFlashSale name={'Sofa Băng Bọc Vải Siêu Rộng Lewis Extra'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={46} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/rectangle2b82fc8df70254ff7ba5f.jpg?v=1721288309203'} status={"sale"} />
+                    <GioHangComponent.ItemFlashSale name={'Sofa Băng Bọc Vải Phong Cách Scandinavian'} price={'33.750.000₫'} sale={'67.500.000₫'} label={50} quantity={96} image={'https://bizweb.dktcdn.net/thumb/1024x1024/100/491/756/products/951481666x12496f7cdf2128e24243.jpg?v=1721288302580'} status={"sale"} />
+                    <GioHangComponent.ItemFlashSale name={'Sofa Băng Phòng Khách Truyền Thống QP113'} price={'31.200.000₫'} sale={'62.400.000₫'} label={50} quantity={87} image={'https://bizweb.dktcdn.net/100/491/756/products/ghesofatherain225noithatgiakha-699238d0-2403-4c7e-b31a-1df700837b3d.png?v=1721288295347'} status={"sale"} />
                 </div>
 
             </div >

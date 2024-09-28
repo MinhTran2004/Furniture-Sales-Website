@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import styles from "../CSS/TrangChu.module.css";
 import { useEffect, useState } from "react";
-import { ProductModel } from "../../Model/ProductModel";
-import { ProductController } from "../../Controller/ProductController";
+import { ProductModel } from "../Model/ProductModel";
+import { ProductController } from "../Controller/ProductController";
 import { TrangChuComponent } from "../Component/TrangChuComponent";
 
 export default function HomePage() {

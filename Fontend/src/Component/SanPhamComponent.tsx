@@ -1,7 +1,7 @@
 import { FaRegStar } from "react-icons/fa"
 import styles from "../CSS/SanPham.module.css";
 import { Link } from "react-router-dom";
-import { ProductModel } from "../../Model/ProductModel";
+import { ProductModel } from "../Model/ProductModel";
 
 export class SanPhamComponent{
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
-import { ProductModel } from "../../Model/ProductModel";
+import { ProductModel } from "../Model/ProductModel";
 import styles from "../CSS/KhuyenMai.module.css";
 
 export class KhuyenMaiComponent{
