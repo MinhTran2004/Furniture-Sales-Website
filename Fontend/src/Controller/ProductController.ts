@@ -9,9 +9,9 @@ export class ProductController{
             console.log(err);
         }
     }
-    static async getAllProductByFilter(filter?:String, data?:String){
+    static async getAllProductByFilter(filter?:string, data?:string, skip?:number, limit?:number){
         try{
-            const reponse = await ProductSevice.getAllProductByFilter(filter, data);
+            const reponse = await ProductSevice.getAllProductByFilter(filter, data, skip, limit);
             return reponse;
         }catch(err){
             console.log(err);

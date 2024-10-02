@@ -1,0 +1,140 @@
+.container_main {
+    width: 70%;
+    padding-top: 70px;
+    margin: 0 auto;
+}
+
+.line {
+    width: 100%;
+    background-color: #c6c6c6;
+    height: 1px;
+    margin: 15px 0;
+}
+
+/* Item_Order */
+.container_order {
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #c6c6c6;
+    border-radius: 10px;
+    background-color: #fff7ee;
+}
+
+/* item_product */
+.container_image {
+    border: 1px solid #bdb5b1;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.image_product {
+    width: 75px;
+    height: 75px;
+    padding: 5px;
+}
+
+.title_product {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.list_porduct {
+    max-height: 400px;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+.container_text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.name_product {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.color_product {
+    font-size: 18px;
+}
+
+.price_product {
+    font-size: 20px;
+}
+
+.total_product {
+    font-size: 21px;
+    color: #2a9dcc;
+}
+
+
+@media screen and (max-width: 575px) {
+    .container_main {
+        width: 100%;
+    }
+
+    .image_product {
+        width: 70px;
+        height: 70px;
+        padding: 5px;
+    }
+
+    .name_product {
+        font-size: 15px;
+    }
+
+    .color_product {
+        font-size: 15px;
+    }
+    .price_product{
+        font-size: 16px;
+    }
+    .total_product{
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .container_main {
+        width: 100%;
+    }
+
+    .image_product {
+        width: 70px;
+        height: 70px;
+        padding: 5px;
+    }
+
+    .name_product {
+        font-size: 16px;
+    }
+
+    .color_product {
+        font-size: 16px;
+    }
+    .price_product{
+        font-size: 18px;
+    }
+    .total_product{
+        font-size: 18px;
+    }
+}
+
+
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .container_main {
+        width: 90%;
+    }
+    .total_product{
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+    .container_main {
+        width: 85%;
+    }
+}

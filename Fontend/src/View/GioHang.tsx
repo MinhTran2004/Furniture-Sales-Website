@@ -16,7 +16,7 @@ export default function CartPage() {
             const reponse = await CartController.getAllCart();
             setData(reponse);
             let sum = 0
-            reponse.map((item: CartModel) => sum = sum + Number(item.sale));
+            reponse.map((item: CartModel) => sum = sum + (Number(item.sale) * Number(item.quantity)));
             const convertSum = GioHangComponent.ConvertMoney(sum.toString());
             setTotal(convertSum);
         } catch (err) {
@@ -24,13 +24,13 @@ export default function CartPage() {
         }
     }
 
-    const ItemCart = ({cart}:any ) => {
-        const [quantity, setQuantity] = useState(Number(cart.quantity));
+    const ItemCart = (cart: any) => {
+        console.log(cart);
         
         const deleteCartById = async () => {
             try {
                 await CartController.deleteCartById(cart._id);
-                getAllCart();
+                getAllCart()
             } catch (err) {
                 console.log(err);
             }
@@ -38,25 +38,25 @@ export default function CartPage() {
 
         const changeQuantity = async (status: Number) => {
             if (status === 0) {
-                if (quantity > 1) {
-                    setQuantity(quantity - 1);
+                if (cart.quantity > 1) {
                     try {
-                        deleteCartById()
+                        await CartController.updateCartQuantityById(cart._id, (Number(cart.quantity) - 1).toString());
+                        getAllCart()
                     } catch (err) {
                         console.log(err);
                     }
                 } else {
                     try {
-                        const reponse = await CartController.deleteCartById(cart.id);
-                        setData(reponse);
+                        await CartController.deleteCartById(cart._id);
+                        getAllCart();
                     } catch (err) {
                         console.log(err);
                     }
                 }
             } else {
-                setQuantity(quantity + 1);
                 try {
-                    deleteCartById()
+                    await CartController.updateCartQuantityById(cart._id, (Number(cart.quantity) + 1).toString());
+                    getAllCart()
                 } catch (err) {
                     console.log(err);
                 }
@@ -76,9 +76,9 @@ export default function CartPage() {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <p className={styles.sale_cart}>{GioHangComponent.ConvertMoney(cart.sale)}₫</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #d7d9e2', borderRadius: 10 }}>
-                        <p className={styles.btn_change_quantity} onClick={() => changeQuantity(0)}>-</p>
-                        <p className={styles.btn_change_quantity}>{quantity}</p>
-                        <p className={styles.btn_change_quantity} onClick={() => changeQuantity(1)}>+</p>
+                        <button className={styles.btn_change_quantity} onClick={() => changeQuantity(0)}>-</button>
+                        <p className={styles.btn_change_quantity} style={{ borderWidth: ' 0px 1px', borderStyle: 'solid' }}>{cart.quantity}</p>
+                        <button className={styles.btn_change_quantity} onClick={() => changeQuantity(1)}>+</button>
                     </div>
                 </div>
             </div>
@@ -111,15 +111,15 @@ export default function CartPage() {
                         </div>
 
                         <div className={styles.container_cart}>
-                            {data.map(item => (
-                                <ItemCart key={item.id} cart = {item} />
+                            {data.map((item, index) => (
+                                <ItemCart key={index} {...item} />
                             ))}
                         </div>
 
                         {data.length !== 0 ?
                             (<div>
-                                <p style={{ fontWeight: '500', fontSize: 16 }}>Ghi chú đơn hàng</p>
-                                <textarea style={{ width: '100%'}} rows={3} />
+                                <p style={{ fontWeight: '500', fontSize: 16, marginTop: 20 }}>Ghi chú đơn hàng</p>
+                                <textarea style={{ width: '100%' }} rows={3} />
                             </div>)
                             :
                             (<div></div>)
@@ -134,9 +134,9 @@ export default function CartPage() {
                                     <p className={styles.title_date_sell}>Ngày nhận hàng</p>
                                     <input type="date" className={styles.date_sell} />
                                 </div>
-                                <div>
-                                    <p className={styles.title_date_sell}>Ngày nhận hàng</p>
-                                    <input type="date" className={styles.date_sell} />
+                                <div style={{textAlign: 'end'}}>
+                                    <p className={styles.title_date_sell}>Thời gian nhận hàng</p>
+                                    <input type="time" className={styles.date_sell} />
                                 </div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>

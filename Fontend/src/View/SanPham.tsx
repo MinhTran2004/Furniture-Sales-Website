@@ -2,29 +2,26 @@ import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FaFilter } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
 import { ProductModel } from "../Model/ProductModel"
 import { ProductController } from "../Controller/ProductController"
-import { SanPhamComponent } from "../Component/SanPhamComponent" 
+import { SanPhamComponent } from "../Component/SanPhamComponent"
 
 export default function ProductPage() {
-    const drawFilter = useRef<any>(null);
     const [data, setData] = useState<ProductModel[]>([]);
+    const drawFilter = useRef<any>(null);
+    const filterProduct = useRef("category");
+    const nameProduct = useRef("All");
+    const limit = useRef(12);
 
-    const getAllProduct = async () => {
+    const getAllProductByFilter = async (filter: string, data: string, limit: number) => {
+        filterProduct.current = filter;
+        nameProduct.current = data;
         try {
-            const reponse = await ProductController.getAllProductByFilter("All", "");
-            setData(reponse);
-            // eslint-disable-next-line
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const getAllProductByFilter = async (filter: String, data: String) => {
-        try {
-            const reponse = await ProductController.getAllProductByFilter(filter, data);
+            const reponse = await ProductController.getAllProductByFilter(filterProduct.current, nameProduct.current, limit - 12, limit);
             setData(reponse);
         } catch (err) {
             console.log(err);
@@ -32,7 +29,7 @@ export default function ProductPage() {
     }
 
     useEffect(() => {
-        getAllProduct();
+        getAllProductByFilter(filterProduct.current, nameProduct.current, 12);
     }, [])
 
     // componenet 
@@ -42,7 +39,6 @@ export default function ProductPage() {
                 drawFilter.current.style.display === 'block' ? 'none' : 'block';
         }
     };
-
 
     return (
         <div>
@@ -62,7 +58,7 @@ export default function ProductPage() {
 
                 {/* main */}
                 <div className={styles.title}>
-                    <p style={{ fontSize: 25, fontWeight: '500', margin: '30px 10px' }} onClick={() => getAllProduct()}>Tất cả sản phẩm</p>
+                    <p style={{ fontSize: 25, fontWeight: '500', margin: '30px 0' }}>Tất cả sản phẩm</p>
                     <FaFilter className={styles.icon_filter} onClick={() => changeDraw()} />
                 </div>
 
@@ -72,6 +68,7 @@ export default function ProductPage() {
                     <div className={styles.left_Filter}>
                         <div>
                             <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
+                            <SanPhamComponent.ItemFilter name={"All"} event={getAllProductByFilter} />
                             <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
                             <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
                             <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
@@ -120,6 +117,7 @@ export default function ProductPage() {
                 <div style={{ overflowY: 'auto', height: '100%' }}>
                     <div>
                         <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
+                        <SanPhamComponent.ItemFilter name={"All"} event={getAllProductByFilter} />
                         <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
                         <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
                         <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
@@ -152,6 +150,29 @@ export default function ProductPage() {
                         <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={getAllProductByFilter} />
                     </div>
                 </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
+                {limit.current > 12 ?
+                    (<button className={styles.btn_page} style={{ backgroundColor: '#757575' }} onClick={() => {
+                        limit.current = limit.current - 12;
+                        getAllProductByFilter(filterProduct.current, nameProduct.current, limit.current);
+                    }}> <FaArrowLeft /> Previous page
+                    </button>)
+                    :
+                    (<div></div>)
+                }
+
+                {data.length !== 0 ?
+                    (
+                        <button className={styles.btn_page} style={{ backgroundColor: 'green' }} onClick={() => {
+                            limit.current = limit.current + 8;
+                            getAllProductByFilter(filterProduct.current, nameProduct.current, limit.current);
+                        }}> Next page <FaArrowRight />
+                        </button>)
+                    :
+                    (<div></div>)
+                }
             </div>
 
             {/* footer */}
@@ -199,7 +220,6 @@ export default function ProductPage() {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

@@ -21,7 +21,8 @@ export class CartSevice {
 
     static async updateCartQuantityById(id:string, quantity:string) {
         try{
-            return (await axios.patch(`http://localhost:5000/cart/updateCartQuantityById/${id}`, {quantity: quantity} )).data;
+            await axios.patch(`http://localhost:5000/cart/updateCartQuantityById/${id}`, {quantity: quantity});
+            return this.getAllCart();
         }catch(err){
             console.log(err);
         }

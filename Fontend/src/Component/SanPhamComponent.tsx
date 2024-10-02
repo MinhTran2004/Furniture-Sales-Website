@@ -78,14 +78,14 @@ export class SanPhamComponent{
         return (
             <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
                 {color != null ?
-                    (<div style={{display: 'flex'}} onClick={() => {event("color", name)}}>
-                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }}></div>
+                    (<div style={{display: 'flex'}}>
+                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }} onClick={() => {event("color", name, 12)}}></div>
                         <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
                     </div>)
                     :
                     ( 
-                    <div style={{display: 'flex'}} onClick={() => {event("category", name)}}>
-                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi"/>
+                    <div style={{display: 'flex'}}>
+                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi" onClick={() => {event("category", name, 12)}}/>
                         <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
                     </div>)
                 }

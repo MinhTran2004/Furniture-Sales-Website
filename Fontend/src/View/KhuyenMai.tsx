@@ -11,7 +11,7 @@ export default function PromotionPage() {
 
     const getProductSize = async() => {
         try{
-            const reponse = await ProductController.getAllProductByFilter("All", "");
+            const reponse = await ProductController.getAllProductByFilter("","All", 0, 12);
             setData(reponse);
         }catch(err){
             console.log(err);
@@ -41,9 +41,7 @@ export default function PromotionPage() {
                 <div className={styles.container_Product}>
                     {data.map((item:ProductModel, index) => (
                         <KhuyenMaiComponent.ItemProduct key={index} {...item} />
-                    ))
-
-                    }
+                    ))}
                 </div>
             </div>
 

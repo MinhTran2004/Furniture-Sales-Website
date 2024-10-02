@@ -150,6 +150,18 @@
     font-weight: 500;
 }
 
+.btn_page{
+    border: 0;
+    border-radius: 5px;
+    margin: 0 5px;
+    padding: 10px 20px;
+    color: white;
+}
+
+.btn_page:active{
+    transform: scale(0.95);
+}
+
 /* footer */
 .container_footer {
     width: 87%;
