@@ -164,9 +164,8 @@ export default function ProductPage() {
                 }
 
                 {data.length !== 0 ?
-                    (
-                        <button className={styles.btn_page} style={{ backgroundColor: 'green' }} onClick={() => {
-                            limit.current = limit.current + 8;
+                    (<button className={styles.btn_page} style={{ backgroundColor: 'green' }} onClick={() => {
+                            limit.current = limit.current + 12;
                             getAllProductByFilter(filterProduct.current, nameProduct.current, limit.current);
                         }}> Next page <FaArrowRight />
                         </button>)

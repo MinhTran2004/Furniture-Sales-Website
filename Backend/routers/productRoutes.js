@@ -28,28 +28,37 @@ router.get('/getAllProductByFilter', async (req, res) => {
     try {
         const filter = req.query.filter;
         const data = req.query.data;
+        const skip = req.query.skip
+        const limit = req.query.limit;
+        console.log(skip);
+        console.log(limit);
 
         let reponse = "";
-        switch (filter) {
-            case "category":
-                reponse = await Product.find({ type: data }).skip("0").limit("12");
-                res.send(reponse);
-                break;
-            case "color":
-                reponse = await Product.find({ "image.color": data }).skip("0").limit("12");
-                res.send(reponse);
-                break;
-            case "price":
-                reponse = await Product.find({ sale: data }).skip("0").limit("12");
-                res.send(reponse);
-                break;
-            case "All":
-                reponse = await Product.find().skip("0").limit("12");
-                res.send(reponse);
-            default:
-                reponse = await Product.find().skip("0").limit("12");
-        }
 
+        if (data === "All") {
+            reponse = await Product.find().skip(skip).limit(limit);
+            res.send(reponse);
+        } else {
+            switch (filter) {
+                case "category":
+                    reponse = await Product.find({ type: data }).skip(skip).limit(limit);
+                    res.send(reponse);
+                    break;
+                case "color":
+                    reponse = await Product.find({ "image.color": data }).skip(skip).limit(limit);
+                    res.send(reponse);
+                    break;
+                case "price":
+                    reponse = await Product.find({ sale: data }).skip(skip).limit(limit);
+                    res.send(reponse);
+                    break;
+                case "all":
+                    reponse = await Product.find().skip(skip).limit(limit);
+                    res.send(reponse);
+                default:
+                    reponse = await Product.find().skip(skip).limit(limit);
+            }
+        }
     } catch (err) {
         console.log(err);
     }

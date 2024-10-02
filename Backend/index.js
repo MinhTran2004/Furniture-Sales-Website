@@ -4,7 +4,7 @@ const connectDB = require('./database/db');
 const userRoutes = require('./routers/userRoutes');
 const productRoutes = require('./routers/productRoutes');
 const cartRoutes = require('./routers/cartRoutes');
-
+const orderRoutes = require('./routers/orderRoutes');
 
 const app = express();
 const port = 5000;
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/cart', cartRoutes);
+app.use('/order', orderRoutes);
 
 app.listen(port, () => {
   console.log(`Ứng dụng đang lắng nghe trên cổng ${port}`);

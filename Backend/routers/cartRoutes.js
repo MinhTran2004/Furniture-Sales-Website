@@ -6,10 +6,9 @@ const router = express.Router();
 //Them san pham vao gio hang
 router.post('/addCart', async (req, res) => {
     try {
+        delete req.body._id;
         const cart = new Cart(req.body);
         const reponse = await cart.save();
-        console.log(reponse);
-        
         res.send(reponse);
     } catch (err) {
         console.log(err);
@@ -41,9 +40,8 @@ router.delete('/deleteCartById/:id', async (req, res) => {
     try {
         const id = req.params.id;
         console.log(id);
-        
-        const reponse = await Cart.findByIdAndDelete(id);
-        res.send(reponse);
+        const repose = await Cart.findByIdAndDelete(id);
+        res.send(repose);
     } catch (err) {
         console.log(err);
     }
