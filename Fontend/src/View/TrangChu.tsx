@@ -15,7 +15,7 @@ export default function HomePage() {
         try {
             const reponse = await ProductController.getAllProduct();
             setDataFlashSale1(reponse.filter((item: ProductModel) => item.type === "Ghế Sofa"));
-            setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Đèn" || item.type === "Ghế"));
+            setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Ghế"));
         } catch (err) {
             console.log(err);
         }
@@ -23,6 +23,7 @@ export default function HomePage() {
 
     useEffect(() => {
         getData();
+        
     }, [])
 
 

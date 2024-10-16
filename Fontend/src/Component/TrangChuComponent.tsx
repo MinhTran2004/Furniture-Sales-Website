@@ -13,6 +13,7 @@ export class TrangChuComponent {
 
     // compnent
     static ItemFlashSale = (product:ProductModel) => {
+        
         return (
             <Link
                 to="/ThongTinSanPham"

@@ -11,7 +11,6 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import DangNhap from "./DangNhap";
 import { useSelector } from "react-redux";
 import ThanhToan from "./ThanhToan"
-import DonHang from "./DonHang";
 import { useEffect } from "react";
 
 const ScrollToTop = () => {
@@ -34,7 +33,6 @@ export default function App() {
                     <Dropdown.Toggle id="dropdown-basic">
                         <HiMenuAlt1 />
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                         <Dropdown.Item><Link to="/" className="headerTitle">Trang chủ</Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/SanPham" className="headerTitle">Sản phẩm</Link></Dropdown.Item>
@@ -58,7 +56,7 @@ export default function App() {
                         selector[0] == null ?
                             <Link to="/DangNhap"><img src={require("../Image/user.png")} alt="" className="headerIcon" /></Link>
                             :
-                            <Link to="/DonHang"><img src={require("../Image/icon_order.png")} alt="" className="headerIcon"/></Link>
+                            <Link to="#"><img src={require("../Image/icon_order.png")} alt="" className="headerIcon"/></Link>
                     }
                 </div>
             </div>
@@ -72,7 +70,6 @@ export default function App() {
                 <Route path="/GioHang" element={<GioHang />} />
                 <Route path="/DangNhap" element={<DangNhap />} />
                 <Route path="/ThanhToan" element={<ThanhToan />} />
-                <Route path="/DonHang" element={<DonHang />} />
             </Routes>
         </div>
     )
