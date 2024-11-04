@@ -2,8 +2,8 @@ import { FaRegStar } from "react-icons/fa";
 import styles from "../CSS/GioHang.module.css";
 
 export class GioHangComponent{
-    static ConvertMoney = (price: String) => {
-        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    static ConvertMoney = (price: any) => {
+        const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         return convertMoney;
     }
 

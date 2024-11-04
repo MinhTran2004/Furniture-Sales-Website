@@ -1,71 +1,19 @@
 import { faAngleRight, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { CartModel } from "../Model/CartModel";
+import { Cart } from "../Model/CartModel";
 import styles from "../CSS/GioHang.module.css";
-import { CartController } from "../Controller/CartController";
 import { GioHangComponent } from "../Component/GioHangComponent";
 import { Link } from "react-router-dom";
+import GioHangCart from "../ViewModel/Cart/GioHangCart";
 
 export default function CartPage() {
-    const [data, setData] = useState<CartModel[]>([])
-    const [total, setTotal] = useState("");
+    const viewModel = GioHangCart()
 
-    const getAllCart = async () => {
-        try {
-            const reponse = await CartController.getAllCart();
-            setData(reponse);
-            let sum = 0
-            reponse.map((item: CartModel) => sum = sum + (Number(item.sale) * Number(item.quantity)));
-            const convertSum = GioHangComponent.ConvertMoney(sum.toString());
-            setTotal(convertSum);
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const ItemCart = (cart: any) => {
-        console.log(cart);
-        
-        const deleteCartById = async () => {
-            try {
-                await CartController.deleteCartById(cart._id);
-                getAllCart()
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        const changeQuantity = async (status: Number) => {
-            if (status === 0) {
-                if (cart.quantity > 1) {
-                    try {
-                        await CartController.updateCartQuantityById(cart._id, (Number(cart.quantity) - 1).toString());
-                        getAllCart()
-                    } catch (err) {
-                        console.log(err);
-                    }
-                } else {
-                    try {
-                        await CartController.deleteCartById(cart._id);
-                        getAllCart();
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-            } else {
-                try {
-                    await CartController.updateCartQuantityById(cart._id, (Number(cart.quantity) + 1).toString());
-                    getAllCart()
-                } catch (err) {
-                    console.log(err);
-                }
-            }
-        }
+    const ItemCart = (cart: Cart) => {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button style={{ border: 0, backgroundColor: 'white', fontWeight: 'bold' }} onClick={() => deleteCartById()}>X</button>
+                    <button style={{ border: 0, backgroundColor: 'white', fontWeight: 'bold' }} onClick={() => viewModel.deleteCartById(cart._id)}>X</button>
                     <img src={cart.image} alt="" className={styles.image_cart} />
                     <div>
                         <p className={styles.name_cart}>{cart.name}</p>
@@ -74,21 +22,16 @@ export default function CartPage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <p className={styles.sale_cart}>{GioHangComponent.ConvertMoney(cart.sale)}₫</p>
+                    <p className={styles.sale_cart}>{GioHangComponent.ConvertMoney(cart.price)}₫</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #d7d9e2', borderRadius: 10 }}>
-                        <button className={styles.btn_change_quantity} onClick={() => changeQuantity(0)}>-</button>
+                        <button className={styles.btn_change_quantity} onClick={() => viewModel.changeQuantity(cart._id, cart.quantity, false)}>-</button>
                         <p className={styles.btn_change_quantity} style={{ borderWidth: ' 0px 1px', borderStyle: 'solid' }}>{cart.quantity}</p>
-                        <button className={styles.btn_change_quantity} onClick={() => changeQuantity(1)}>+</button>
+                        <button className={styles.btn_change_quantity} onClick={() => viewModel.changeQuantity(cart._id, cart.quantity, true)}>+</button>
                     </div>
                 </div>
             </div>
         )
     }
-
-    useEffect(() => {
-        getAllCart();
-        // eslint-disable-next-line
-    }, [])
 
     return (
         <div>
@@ -111,12 +54,12 @@ export default function CartPage() {
                         </div>
 
                         <div className={styles.container_cart}>
-                            {data.map((item, index) => (
+                            {viewModel.dataCart.map((item, index) => (
                                 <ItemCart key={index} {...item} />
                             ))}
                         </div>
 
-                        {data.length !== 0 ?
+                        {viewModel.dataCart.length !== 0 ?
                             (<div>
                                 <p style={{ fontWeight: '500', fontSize: 16, marginTop: 20 }}>Ghi chú đơn hàng</p>
                                 <textarea style={{ width: '100%' }} rows={3} />
@@ -141,7 +84,7 @@ export default function CartPage() {
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
                                 <p className={styles.total_sell}>TỔNG CỘNG</p>
-                                <p className={styles.total_sell} style={{ color: 'red' }}>{total}₫</p>
+                                <p className={styles.total_sell} style={{ color: 'red' }}>{viewModel.total}₫</p>
                             </div>
                             <p className={styles.title_date_sell} style={{ textAlign: 'end', fontStyle: 'italic' }}>(Đã bao gồm VAT nếu có)</p>
 

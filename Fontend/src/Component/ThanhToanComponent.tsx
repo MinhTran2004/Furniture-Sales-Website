@@ -18,11 +18,11 @@ export class ThanhToanComponent {
                         {item.color ?
                             <p className={styles.color_product} style={{ color: '#7a7a7a' }}>{item.color}</p>
                             :
-                            <p className={styles.color_product} style={{ color: '#7a7a7a' }}>""</p>
+                            <div className={styles.color_product} style={{ backgroundColor: 'white', height:23, width: 20 }}></div>
                         }
                         <p className={styles.color_product}>x{item.quantity}</p>
                     </div>
-                    <p className={styles.price_product}>{this.ConvertMoney(item.sale)}₫</p>
+                    <p className={styles.price_product}>{this.ConvertMoney(item.price)}₫</p>
                 </div>
             </div>
         )

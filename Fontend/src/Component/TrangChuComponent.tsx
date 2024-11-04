@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ProductModel } from "../Model/ProductModel";
 import styles from "../CSS/TrangChu.module.css";
 import { FaRegStar } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { Product } from "../Model/ProductModel";
 
 export class TrangChuComponent {
     static ConvertMoney = (price:String) => {
@@ -11,8 +11,7 @@ export class TrangChuComponent {
         return convertMoney;
     }
 
-    // compnent
-    static ItemFlashSale = (product:ProductModel) => {
+    static ItemFlashSale = (product:Product) => {
         
         return (
             <Link
@@ -29,9 +28,9 @@ export class TrangChuComponent {
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_FlashSale}>{this.ConvertMoney(product.sale)}</p>
+                    <p className={styles.sale_FlashSale}>{this.ConvertMoney(product.price)}</p>
                     <div style={{ display: 'flex' }}>
-                        <p className={styles.price_FlashSale}>{this.ConvertMoney(product.price)}</p>
+                        <p className={styles.price_FlashSale}>{this.ConvertMoney(product.sale)}</p>
                         <p className={styles.label_FlashSale}>-{product.label}%</p>
                     </div>
                 </div>

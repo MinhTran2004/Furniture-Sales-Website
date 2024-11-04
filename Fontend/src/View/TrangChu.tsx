@@ -2,30 +2,11 @@ import { faAngleRight, faEnvelope, faLocationDot, faPhone, faPlay } from "@forta
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import styles from "../CSS/TrangChu.module.css";
-import { useEffect, useState } from "react";
-import { ProductModel } from "../Model/ProductModel";
-import { ProductController } from "../Controller/ProductController";
 import { TrangChuComponent } from "../Component/TrangChuComponent";
+import TrangChuProduct from "../ViewModel/Product/TrangChuProduct";
 
 export default function HomePage() {
-    const [dataFlashSale1, setDataFlashSale1] = useState<ProductModel[]>([]);
-    const [dataFlashSale2, setDataFlashSale2] = useState<ProductModel[]>([]);
-    
-    const getData = async () => {
-        try {
-            const reponse = await ProductController.getAllProduct();
-            setDataFlashSale1(reponse.filter((item: ProductModel) => item.type === "Ghế Sofa"));
-            setDataFlashSale2(reponse.filter((item: ProductModel) => item.type === "Ghế"));
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        getData();
-        
-    }, [])
-
+    const viewModel = TrangChuProduct();
 
     return (
         <div style={{ flex: 1, paddingTop: 60 }}>
@@ -59,7 +40,7 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
-                    {dataFlashSale1.map((product, index) => (
+                    {viewModel.typeSofa.map((product, index) => (
                         <TrangChuComponent.ItemFlashSale key={index} {...product} />
                     ))}
                 </div>
@@ -106,12 +87,14 @@ export default function HomePage() {
                         <Link to={"/Product"} style={{ fontSize: 18, color: 'black' }}>Xem tất cả</Link>
                     </div>
 
-                    <div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
-                            {dataFlashSale2.map((product, index) => (
-                                <TrangChuComponent.ItemFlashSale key={index} {...product} />
-                            ))}
-                        </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
+                        {viewModel.typeLamp.map((product, index) => (
+                            <TrangChuComponent.ItemFlashSale key={index} {...product} />
+                        ))}
+
+                        {viewModel.typeChair.map((product, index) => (
+                            <TrangChuComponent.ItemFlashSale key={index} {...product} />
+                        ))}
                     </div>
                 </div>
 
@@ -138,8 +121,11 @@ export default function HomePage() {
 
                     <div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto' }}>
-                            {dataFlashSale2.map((product, index) => (
-                                <TrangChuComponent.ItemFlashSale key={index} {...product}  />
+                            {viewModel.typeTable.map((product, index) => (
+                                <TrangChuComponent.ItemFlashSale key={index} {...product} />
+                            ))}
+                            {viewModel.typeChair.map((product, index) => (
+                                <TrangChuComponent.ItemFlashSale key={index} {...product} />
                             ))}
                         </div>
                     </div>

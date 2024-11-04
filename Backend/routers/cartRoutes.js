@@ -9,7 +9,7 @@ router.post('/addCart', async (req, res) => {
         delete req.body._id;
         const cart = new Cart(req.body);
         const reponse = await cart.save();
-        res.send(reponse);
+        res.status(200).send('Thêm thành công');
     } catch (err) {
         console.log(err);
     }

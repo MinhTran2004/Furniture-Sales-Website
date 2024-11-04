@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { ProductModel } from "../Model/ProductModel"
 import styles from "../CSS/Thongtinsanpham.module.css"
 import { FaRegStar } from "react-icons/fa"
+import { Product } from "../Model/ProductModel";
 
 export class ThongTinSanPhamComponent{
     static ConvertMoney = (price:String) => {
@@ -55,7 +55,7 @@ export class ThongTinSanPhamComponent{
             </div>
         )
     }
-    static ItemProduct = (item : ProductModel) => {
+    static ItemProduct = (item : Product) => {
         return (
             <Link
                 to="/ThongTinSanPham"

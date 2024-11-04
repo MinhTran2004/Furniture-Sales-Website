@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
-import { ProductModel } from "../Model/ProductModel";
 import styles from "../CSS/KhuyenMai.module.css";
+import { Product } from "../Model/ProductModel";
 
 export class KhuyenMaiComponent{
     static ConvertMoney = (price:String) => {
@@ -44,7 +44,7 @@ export class KhuyenMaiComponent{
             </div>
         )
     }
-    static ItemProduct = (item : ProductModel) => {
+    static ItemProduct = (item : Product) => {
         return (
             <Link
                 to="/ThongTinSanPham"

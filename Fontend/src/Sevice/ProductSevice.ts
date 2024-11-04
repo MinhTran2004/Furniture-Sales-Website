@@ -1,23 +1,44 @@
 import axios from "axios";
 
 export class ProductSevice {
-    //lat tat ca san pham
-    static async getAllProduct() {
+    static url = 'http://localhost:5000/product';
+
+    // lấy sản phẩm theo thể loại và số lượng
+    static async getAllProductBySizeAndType(size: number, type: string){
         try {
-            const reponse = await axios.get(`http://localhost:5000/product/getAllProduct`)
-            return reponse.data;;
+            const reponse = await axios.get(`${this.url}/getAllProductBySizeAndType`, {
+                params: {
+                    size: size,
+                    type: type,
+                }
+            })
+            return reponse.data;
         } catch (err) {
             console.log(err);
         }
     }
-    // ?filter=${filter}&data=${data}
     //lay san pham va loc san pham
-    static async getAllProductByFilter(filter?: string, data?: string, skip?: number, limit?: number) {
+    static async getAllProductBySize(skip?: number, limit?: number) {
         try {
-            const reponse = await axios.get(`http://localhost:5000/product/getAllProductByFilter`, {
+            const reponse = await axios.get(`${this.url}/getAllProductBySizeAndFilter`, {
+                params: {
+                    skip: skip,
+                    limit: limit,
+                }
+            });
+            return reponse.data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    //lay san pham va loc san pham
+    static async getAllProductBySizeAndFilter(filter?: string, detailtype?: string, skip?: number, limit?: number) {
+        try {
+            const reponse = await axios.get(`${this.url}/getAllProductBySizeAndFilter`, {
                 params: {
                     filter: filter,
-                    data: data,
+                    detailtype: detailtype,
                     skip: skip,
                     limit: limit,
                 }

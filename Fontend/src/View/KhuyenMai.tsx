@@ -1,26 +1,12 @@
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styles from "../CSS/KhuyenMai.module.css"
-import { useEffect, useState } from "react"
-import { ProductModel } from "../Model/ProductModel"
-import { ProductController } from "../Controller/ProductController"
 import { KhuyenMaiComponent } from "../Component/khuyenMainComposenent"
+import { Product } from "../Model/ProductModel"
+import KhuyenMaiProduct from "../ViewModel/Product/KhuyenMaiProduct"
 
 export default function PromotionPage() {
-    const [data, setData] = useState<ProductModel[]>([]);
-
-    const getProductSize = async() => {
-        try{
-            const reponse = await ProductController.getAllProductByFilter("","All", 0, 12);
-            setData(reponse);
-        }catch(err){
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        getProductSize();
-    },[])
+    const viewModel = KhuyenMaiProduct();
 
     return (
         <div style={{ flex: 1, backgroundColor: '#fcf4eb' }}>
@@ -39,7 +25,7 @@ export default function PromotionPage() {
 
                 {/* main */}
                 <div className={styles.container_Product}>
-                    {data.map((item:ProductModel, index) => (
+                    {viewModel.dataProductPromotion.map((item:Product, index) => (
                         <KhuyenMaiComponent.ItemProduct key={index} {...item} />
                     ))}
                 </div>

@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./database/db');
-const userRoutes = require('./routers/userRoutes');
+const connectDB = require('./config');
+const accountRoutes = require('./routers/accountRoutes');
 const productRoutes = require('./routers/productRoutes');
 const cartRoutes = require('./routers/cartRoutes');
 const orderRoutes = require('./routers/orderRoutes');
@@ -13,7 +13,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.use('/user', userRoutes);
+app.use('/account', accountRoutes);
 app.use('/product', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);

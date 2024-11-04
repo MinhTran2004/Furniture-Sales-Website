@@ -1,11 +1,13 @@
 import { FaRegStar } from "react-icons/fa"
 import styles from "../CSS/SanPham.module.css";
 import { Link } from "react-router-dom";
-import { ProductModel } from "../Model/ProductModel";
+import { Product } from "../Model/ProductModel";
+import SanPhamProduct from "../ViewModel/Product/SanPhamProduct";
+import { memo } from "react";
 
-export class SanPhamComponent{
+export class SanPhamComponent {
 
-    static ConvertMoney = (price:String) => {
+    static ConvertMoney = (price: String) => {
         const convertMoney = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         return convertMoney;
     }
@@ -46,8 +48,8 @@ export class SanPhamComponent{
             </div>
         )
     }
-    
-    static ItemProduct= ( product:ProductModel) => {
+
+    static ItemProduct = (product: Product) => {
         return (
             <Link
                 to="/ThongTinSanPham"
@@ -64,32 +66,43 @@ export class SanPhamComponent{
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
                     <FaRegStar className={styles.icon_star} />
-                    <p className={styles.sale_Product}>{this.ConvertMoney(product.sale)}</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className={styles.price_Product}>{this.ConvertMoney(product.price)}</p>
-                        <p className={styles.label_Product}>-{product.label}%</p>
-                    </div>
+                    <p className={styles.sale_Product}>{this.ConvertMoney(product.price)}</p>
+
+                    {product.label != '0' ?
+                        <div style={{ display: 'flex' }}>
+                            <p className={styles.price_Product}>{this.ConvertMoney(product.sale)}</p>
+                            <p className={styles.label_Product}>-{product.label}%</p>
+                        </div>
+                        :
+                        <div style={{ display: 'flex' }}/>}
                 </div>
             </Link>
         )
     }
 
-    static ItemFilter = ({ name, color, event }: any) => {
+    static ItemFilter = memo(({ name, color, event }: any) => {
         return (
             <div style={{ display: 'flex', marginBottom: 5, alignItems: 'center' }}>
                 {color != null ?
-                    (<div style={{display: 'flex'}}>
-                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }} onClick={() => {event("color", name, 12)}}></div>
+                    (<div style={{ display: 'flex' }} onClick={() => {
+                        event.filter.current = "color";
+                        event.detailType.current = name;
+                        event.getAllProductBySizeAndFilter();
+                    }}>
+                        <div style={{ width: 20, height: 20, backgroundColor: color, borderRadius: 50 }} ></div>
                         <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
                     </div>)
                     :
-                    ( 
-                    <div style={{display: 'flex'}}>
-                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi" onClick={() => {event("category", name, 12)}}/>
+                    (<div style={{ display: 'flex' }} onClick={() => {
+                        event.filter.current = "category";
+                        event.detailType.current = name;
+                        event.getAllProductBySizeAndFilter();
+                    }}>
+                        <input type="radio" style={{ width: 20, height: 20 }} name="hihi" />
                         <p style={{ margin: '0 0 0 5px', fontSize: 13, fontWeight: '500' }}>{name}</p>
                     </div>)
                 }
             </div>
         )
-    }
+    })
 }

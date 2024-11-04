@@ -4,41 +4,12 @@ import { FaFilter } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
-import { useEffect, useRef, useState } from "react"
 import styles from "../CSS/SanPham.module.css"
-import { ProductModel } from "../Model/ProductModel"
-import { ProductController } from "../Controller/ProductController"
 import { SanPhamComponent } from "../Component/SanPhamComponent"
+import SanPhamProduct from "../ViewModel/Product/SanPhamProduct";
 
 export default function ProductPage() {
-    const [data, setData] = useState<ProductModel[]>([]);
-    const drawFilter = useRef<any>(null);
-    const filterProduct = useRef("category");
-    const nameProduct = useRef("All");
-    const limit = useRef(12);
-
-    const getAllProductByFilter = async (filter: string, data: string, limit: number) => {
-        filterProduct.current = filter;
-        nameProduct.current = data;
-        try {
-            const reponse = await ProductController.getAllProductByFilter(filterProduct.current, nameProduct.current, limit - 12, limit);
-            setData(reponse);
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        getAllProductByFilter(filterProduct.current, nameProduct.current, 12);
-    }, [])
-
-    // componenet 
-    const changeDraw = () => {
-        if (drawFilter.current) {
-            drawFilter.current.style.display =
-                drawFilter.current.style.display === 'block' ? 'none' : 'block';
-        }
-    };
+    const viewModel = SanPhamProduct();
 
     return (
         <div>
@@ -59,7 +30,7 @@ export default function ProductPage() {
                 {/* main */}
                 <div className={styles.title}>
                     <p style={{ fontSize: 25, fontWeight: '500', margin: '30px 0' }}>Tất cả sản phẩm</p>
-                    <FaFilter className={styles.icon_filter} onClick={() => changeDraw()} />
+                    <FaFilter className={styles.icon_filter} onClick={() => viewModel.changeDraw()} />
                 </div>
 
                 <div style={{ display: 'flex' }}>
@@ -68,43 +39,44 @@ export default function ProductPage() {
                     <div className={styles.left_Filter}>
                         <div>
                             <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
-                            <SanPhamComponent.ItemFilter name={"All"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Đèn"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Tủ Giày - Tủ Trang Trí"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Giường"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"All"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Bàn"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Ghế"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Đèn"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Tủ giày"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Tủ kệ tivi"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Giường"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={viewModel} />
                         </div>
 
                         <div style={{ borderTop: '1px dashed #eee' }}>
                             <p style={{ margin: '10px 0 5px', fontWeight: '450', fontSize: 18 }}>MÀU SẮC</p>
-                            <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={viewModel} />
                         </div>
 
                         <div style={{ borderTop: '1px dashed #eee' }}>
                             <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>MỨC GIÁ</p>
-                            <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={getAllProductByFilter} />
-                            <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={getAllProductByFilter} />
+                            <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={viewModel} />
+                            <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={viewModel} />
                         </div>
                     </div>
 
                     {/* product  */}
                     <div className={styles.container_Product}>
-                        {data.map((product) => (
+                        {viewModel.dataProduct.map((product) => (
                             <SanPhamComponent.ItemProduct key={product._id} {...product} />
                         ))}
                     </div>
@@ -112,63 +84,63 @@ export default function ProductPage() {
             </div>
 
             {/* filter  */}
-            <div className={styles.right_Filter} ref={drawFilter}>
-                <IoMdClose onClick={() => changeDraw()} />
+            <div className={styles.right_Filter} ref={viewModel.isdrawFilter}>
+                <IoMdClose onClick={() => viewModel.changeDraw()} />
                 <div style={{ overflowY: 'auto', height: '100%' }}>
                     <div>
                         <p style={{ margin: '0 0 5px', fontWeight: '450', fontSize: 18 }}>LOẠI SẢN PHẨM</p>
-                        <SanPhamComponent.ItemFilter name={"All"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Bàn"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Ghế"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Đèn"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Tủ Giày - Tủ Trang Trí"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Giường"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"All"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Bàn"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Ghế Sofa"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Ghế"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Đèn"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Tủ Giày - Tủ Trang Trí"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Giường"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Ghế bàn Học"} event={viewModel} />
                     </div>
 
                     <div style={{ borderTop: '1px dashed #eee' }}>
                         <p style={{ margin: '10px 0 5px', fontWeight: '450', fontSize: 18 }}>MÀU SẮC</p>
-                        <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Đen"} color={"black"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Nâu nhạt"} color={"#a77862"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Xanh lá"} color={"#93c062"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Hồng"} color={"#f5cac8"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Đỏ"} color={"#ec042f"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Trắng"} color={"#f1f0f1"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Cam"} color={"#f8632e"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Tím"} color={"#7f00d9"} event={viewModel} />
                     </div>
 
                     <div style={{ borderTop: '1px dashed #eee' }}>
                         <p style={{ margin: '10px 0 8px', fontWeight: '450', fontSize: 18 }}>MỨC GIÁ</p>
-                        <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={getAllProductByFilter} />
-                        <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={getAllProductByFilter} />
+                        <SanPhamComponent.ItemFilter name={"Giá dưới 1.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"1.000.000₫ - 2.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"2.000.000₫ - 3.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"3.000.000₫ - 5.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"5.000.000₫ - 7.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"7.000.000₫ - 10.000.000₫"} event={viewModel} />
+                        <SanPhamComponent.ItemFilter name={"Giá trên 10.000.000₫"} event={viewModel} />
                     </div>
                 </div>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
-                {limit.current > 12 ?
+                {/* {viewModel.limitProduct.current > 12 ?
                     (<button className={styles.btn_page} style={{ backgroundColor: '#757575' }} onClick={() => {
-                        limit.current = limit.current - 12;
-                        getAllProductByFilter(filterProduct.current, nameProduct.current, limit.current);
+                        viewModel.limitProduct.current = viewModel.limitProduct.current - 8;
+                        viewModel.getAllProductBySizeAndFilter();
                     }}> <FaArrowLeft /> Previous page
                     </button>)
                     :
                     (<div></div>)
-                }
+                } */}
 
-                {data.length !== 0 ?
+                {viewModel.dataProduct.length === viewModel.limitProduct.current ?
                     (<button className={styles.btn_page} style={{ backgroundColor: 'green' }} onClick={() => {
-                            limit.current = limit.current + 12;
-                            getAllProductByFilter(filterProduct.current, nameProduct.current, limit.current);
-                        }}> Next page <FaArrowRight />
-                        </button>)
+                        viewModel.limitProduct.current = viewModel.limitProduct.current + 8;
+                        viewModel.getAllProductBySizeAndFilter();
+                    }}> Next page <FaArrowRight />
+                    </button>)
                     :
                     (<div></div>)
                 }

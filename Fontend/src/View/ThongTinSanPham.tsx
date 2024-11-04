@@ -2,58 +2,34 @@ import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react";
 import { FaRegStar } from "react-icons/fa";
-import { useLocation } from "react-router-dom"
-import { ProductModel } from "../Model/ProductModel";
-import { CartModel } from "../Model/CartModel";
 import styles from "../CSS/Thongtinsanpham.module.css";
-import { CartController } from "../Controller/CartController";
 import { ThongTinSanPhamComponent } from "../Component/ThongTinSanPhamComponent";
+import ThongtinProduct from "../ViewModel/Cart/ThongtinProduct";
 
 export default function InforProductPage() {
-    const location: ProductModel = useLocation().state;
+    const viewModel = ThongtinProduct();
 
-    const [imageProduct, setImageProduct] = useState(location.image[0].imageProduct);
-    const [colorProduct, setColorProduct] = useState(location.image[0].color);
-    const [quantity, setQuantity] = useState(1);
     const [tab, setTab] = useState('TabDescribe');
-
-    const addCart = async () => {
-        try {
-            const product = new CartModel(undefined, location._id, imageProduct, location.name, colorProduct, location.sale, "1", "true");
-            await CartController.addCart(product);
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    const changeQuantity = (status: Number) => {
-        if (status === 0) {
-            if (quantity > 1) {
-                setQuantity(quantity - 1);
-            }
-        } else {
-            setQuantity(quantity + 1);
-        }
-    }
 
     return (
         <div>
             <div className={styles.main}>
-                <p style={{ fontWeight: '500', fontSize: 17 }}>Trang chủ / Sản phẩm/ <span style={{ fontWeight: '500' }}>{location.name}</span> </p>
+                <p style={{ fontWeight: '500', fontSize: 17 }}>Trang chủ / Sản phẩm/ <span style={{ fontWeight: '500' }}>{viewModel.location.name}</span> </p>
 
                 <div className={styles.container_product}>
                     {/* image_product */}
                     <div className={styles.main_product}>
                         <div style={{ width: '10%'}}>
-                            {location.image.map(((item, index) => <img key={index} src={item.imageProduct} className={styles.image_item_Product} alt="" onClick={() => { setImageProduct(item.imageProduct); setColorProduct(item.color) }} />))}
+                            {viewModel.location.image.map(((item, index) => <img key={index} src={item.imageProduct} className={styles.image_item_Product} alt="" onClick={() => {viewModel.setIndexInforProduct(index)}} />))}
                         </div>
                         <div style={{ width: '90%' }}>
-                            <img src={imageProduct} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                            <img src={viewModel.location.image[viewModel.indexInfoProduct].imageProduct} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         </div>
                     </div>
 
                     {/* info_product */}
                     <div className={styles.main_info_product}>
-                        <p className={styles.name_product}>{location.name}</p>
+                        <p className={styles.name_product}>{viewModel.location.name}</p>
                         <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
                         <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
                         <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
@@ -61,15 +37,15 @@ export default function InforProductPage() {
                         <FaRegStar style={{ color: '#ffbe00', fontSize: 15 }} />
                         <div>
                             <p className={styles.id_product}>Thương hiệu: Đang cập nhật</p>
-                            <p className={styles.id_product}>Mã sản phẩm: {location._id}</p>
+                            <p className={styles.id_product}>Mã sản phẩm: {viewModel.location._id}</p>
                         </div>
 
                         <div style={{ display: 'flex' }}>
-                            <p className={styles.sale_product}>{ThongTinSanPhamComponent.ConvertMoney(location.sale)}</p>
-                            <p className={styles.price_product}>{ThongTinSanPhamComponent.ConvertMoney(location.price)}</p>
-                            <p className={styles.label_product}>-{location.label}%</p>
+                            <p className={styles.sale_product}>{ThongTinSanPhamComponent.ConvertMoney(viewModel.location.sale)}</p>
+                            <p className={styles.price_product}>{ThongTinSanPhamComponent.ConvertMoney(viewModel.location.price)}</p>
+                            <p className={styles.label_product}>-{viewModel.location.label}%</p>
                         </div>
-                        <p>(Tiết kiệm <span style={{ color: 'red' }}>{ThongTinSanPhamComponent.ConvertMoney(location.sale)}</span>)</p>
+                        <p>(Tiết kiệm <span style={{ color: 'red' }}>{ThongTinSanPhamComponent.ConvertMoney(viewModel.location.sale)}</span>)</p>
 
                         <div style={{ padding: '20px 10px 5px', border: '3px dashed black', borderRadius: 10, position: 'relative', marginTop: 15 }}>
                             <div style={{ display: 'flex', padding: '0 5px', position: 'absolute', top: '-10%', left: '3%', backgroundColor: 'white' }}>
@@ -91,13 +67,13 @@ export default function InforProductPage() {
                             <div className={styles.coupon}>GIAM40</div>
                         </div>
 
-                        {location.image[0].color !== "" ?
+                        {viewModel.location.image[viewModel.indexInfoProduct].color !== "" ?
                             <div>
-                                <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>Màu sắc: {colorProduct} </p>
+                                <p style={{ width: '100%', margin: '20px 5px 5px 0', fontSize: 16, fontWeight: '500' }}>Màu sắc: {viewModel.location.image[viewModel.indexInfoProduct].color} </p>
                                 <div style={{ display: 'flex' }}>
-                                    {location.image.map((item, index) => (
+                                    {viewModel.location.image.map((item, index) => (
                                         <div key={index} style={{ width: 35, height: 35, display: 'flex', border: '1px solid #bdbdbd', borderRadius: 50, margin: '0 5px', padding: 2 }}>
-                                            <img src={item.imageProduct} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 50 }} alt="" onClick={() => { setImageProduct(item.imageProduct); setColorProduct(item.color) }} />
+                                            <img src={item.imageProduct} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 50 }} alt="" onClick={() => { viewModel.setIndexInforProduct(index) }} />
                                         </div>))
                                     }
                                 </div>
@@ -108,11 +84,11 @@ export default function InforProductPage() {
 
                         <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
                             <div className={styles.container_quantity}>
-                                <p className={styles.quantity} onClick={() => changeQuantity(0)}>-</p>
-                                <p className={styles.quantity}>{quantity}</p>
-                                <p className={styles.quantity} onClick={() => changeQuantity(1)}>+</p>
+                                <p className={styles.quantity} onClick={() => viewModel.changeQuantity(0)}>-</p>
+                                <p className={styles.quantity}>{viewModel.quantity}</p>
+                                <p className={styles.quantity} onClick={() => viewModel.changeQuantity(1)}>+</p>
                             </div>
-                            <button className={styles.btn_cart} onClick={addCart}>Thêm vào giỏ hàng</button>
+                            <button className={styles.btn_cart} onClick={viewModel.addCart}>Thêm vào giỏ hàng</button>
                         </div>
                         <button style={{ width: '100%', backgroundColor: 'black', padding: '7px 0', borderRadius: 5, color: 'white', fontSize: 18, fontWeight: '500' }}>Mua ngay</button>
 

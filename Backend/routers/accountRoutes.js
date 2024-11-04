@@ -1,32 +1,32 @@
 const express = require('express');
-const User = require('../model/user');
+const Account = require('../model/account');
 
 const router = express.Router();
 
 //Tao tai khoan
-router.post('/addUser', async (req, res) => {
+router.post('/addAccount', async (req, res) => {
     try {
-        const user = new User(req.body);
-        await user.save();
+        const account = new Account(req.body);
+        await account.save();
     } catch (err) {
         console.log(err);
     }
 })
 //Kiem tra tai khoan
-router.get('/getUser', async (req, res) => {
+router.get('/getAccount', async (req, res) => {
     try {
-        const users = await User.find();
-        res.status(200).send(users);
+        const account = await Account.find();
+        res.status(200).send(account);
     } catch (err) {
         console.error('Error fetching users:', err);
         res.status(500).send({ error: err.message });
     }
 });
 //Xoa tai khoan
-router.delete('/deleteUser/:id', async (req, res) => {
+router.delete('/deleteAccount/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        await User.findByIdAndDelete(id);
+        await Account.findByIdAndDelete(id);
     } catch (err) {
         console.log(err);
     }
